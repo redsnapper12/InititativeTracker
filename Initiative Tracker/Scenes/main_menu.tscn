@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci16kidoujsqi"]
+
+[ext_resource type="LabelSettings" uid="uid://dvlfj72qkoi12" path="res://Settings/Text Settings/Title Settings.tres" id="1_ju5xa"]
+[ext_resource type="Theme" uid="uid://diou15a54f2m4" path="res://Settings/Main Theme.tres" id="2_sxkn1"]
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.270222, 0.270222, 0.270222, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -253.0
+offset_top = -74.5
+offset_right = 253.0
+offset_bottom = 74.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Vbox" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="PanelContainer/Vbox"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Initiative Tracker"
+label_settings = ExtResource("1_ju5xa")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Vbox"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Button" type="Button" parent="PanelContainer/Vbox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_sxkn1")
+text = "Exit
+"
+
+[node name="Button2" type="Button" parent="PanelContainer/Vbox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_sxkn1")
+text = "Start"

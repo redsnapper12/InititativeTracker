@@ -1,0 +1,162 @@
+[gd_scene load_steps=3 format=3 uid="uid://balowi2v7juq5"]
+
+[ext_resource type="Script" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
+[ext_resource type="PackedScene" uid="uid://c3huoailwjv4a" path="res://Scenes/initiative_entry.tscn" id="1_dlqeq"]
+
+[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_nameEntry", "_dexterityModifierEntry", "_ACEntry", "_HPEntry", "_addButton", "_gridContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6an5j")
+_nameEntry = NodePath("Scene Container/Add Entry Container/Add Entry/Name Entry")
+_dexterityModifierEntry = NodePath("Scene Container/Add Entry Container/Add Entry/Dex Mod Entry")
+_ACEntry = NodePath("Scene Container/Add Entry Container/Add Entry/AC Entry")
+_HPEntry = NodePath("Scene Container/Add Entry Container/Add Entry/HP Entry")
+_addButton = NodePath("Scene Container/Add Entry Container/Add Entry/Add Entry")
+_initiativeEntryScene = ExtResource("1_dlqeq")
+_gridContainer = NodePath("Scene Container/Tracker Body Container/ScrollContainer/MarginContainer/Entry Container")
+
+[node name="Scene Container" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.015625
+anchor_top = 0.0462963
+anchor_right = 0.983507
+anchor_bottom = 0.983025
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+metadata/_edit_use_anchors_ = true
+
+[node name="Add Entry Container" type="PanelContainer" parent="Scene Container"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Add Entry" type="HBoxContainer" parent="Scene Container/Add Entry Container"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Name Entry" type="LineEdit" parent="Scene Container/Add Entry Container/Add Entry"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "Name"
+max_length = 30
+
+[node name="Dex Mod Entry" type="SpinBox" parent="Scene Container/Add Entry Container/Add Entry"]
+layout_mode = 2
+size_flags_vertical = 4
+rounded = true
+prefix = "+"
+
+[node name="AC Entry" type="SpinBox" parent="Scene Container/Add Entry Container/Add Entry"]
+layout_mode = 2
+size_flags_vertical = 4
+rounded = true
+
+[node name="HP Entry" type="SpinBox" parent="Scene Container/Add Entry Container/Add Entry"]
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1000.0
+rounded = true
+
+[node name="Add Entry" type="Button" parent="Scene Container/Add Entry Container/Add Entry"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Add"
+
+[node name="Tracker Body Container" type="PanelContainer" parent="Scene Container"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Scene Container/Tracker Body Container"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Tracker Body Container/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Entry Container" type="GridContainer" parent="Scene Container/Tracker Body Container/ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
+columns = 5
+
+[node name="Utilities Container" type="PanelContainer" parent="Scene Container"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Utilities Container"]
+layout_mode = 2
+
+[node name="Dice Rolling" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Roll Initiative Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Dice Rolling"]
+layout_mode = 2
+size_flags_vertical = 3
+disabled = true
+text = "Roll Initiative"
+
+[node name="Roll Inititative All Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Dice Rolling"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Roll Initiative For All"
+
+[node name="VSeparator" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
+layout_mode = 2
+
+[node name="Logic" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Sort Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Logic"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Sort
+"
+
+[node name="Clear" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Logic"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Clear"
+
+[node name="VSeparator2" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
+layout_mode = 2
+
+[node name="Round" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Utilities Container/HBoxContainer/Round"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="Scene Container/Utilities Container/HBoxContainer/Round/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Scene Container/Utilities Container/HBoxContainer/Round/MarginContainer/PanelContainer"]
+layout_mode = 2
+text = "Round 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Advance Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Round"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Advance"

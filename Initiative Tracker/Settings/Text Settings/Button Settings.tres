@@ -1,0 +1,6 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cpw60r75jbrlw"]
+
+[ext_resource type="FontFile" uid="uid://r4mtt68sua1y" path="res://Settings/Fonts/Texturina/Texturina-VariableFont_opsz,wght.ttf" id="1_f6hyv"]
+
+[resource]
+font = ExtResource("1_f6hyv")
