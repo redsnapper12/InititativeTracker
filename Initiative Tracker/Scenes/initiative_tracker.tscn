@@ -89,7 +89,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme_override_constants/h_separation = 30
 theme_override_constants/v_separation = 30
-columns = 5
+columns = 4
 
 [node name="Utilities Container" type="PanelContainer" parent="Scene Container"]
 custom_minimum_size = Vector2(0, 150)
