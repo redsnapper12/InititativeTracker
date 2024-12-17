@@ -6,4 +6,6 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>InitiativeTracker</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
 </Project>

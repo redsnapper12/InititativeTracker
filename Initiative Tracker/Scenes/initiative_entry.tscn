@@ -1,21 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3huoailwjv4a"]
+[gd_scene load_steps=5 format=3 uid="uid://c3huoailwjv4a"]
 
 [ext_resource type="Script" path="res://Scripts/InitiativeEntry.cs" id="1_a681c"]
 [ext_resource type="Theme" uid="uid://diou15a54f2m4" path="res://Settings/Main Theme.tres" id="1_xfdqg"]
+[ext_resource type="Texture2D" uid="uid://dk1aoevraowao" path="res://Textures/drag_indicator_64x64.png" id="3_xipj6"]
+[ext_resource type="Script" path="res://Scenes/DragEntry.cs" id="4_wfetp"]
 
-[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_nameLabel", "_initiativeLabel", "_dexterityModifierLabel", "_ACLabel", "_HPLabel", "_deleteButton", "_duplicateButton")]
-custom_minimum_size = Vector2(285, 322)
+[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_deleteButton", "_duplicateButton")]
+custom_minimum_size = Vector2(600, 250)
 layout_mode = 3
 anchors_preset = 0
+offset_right = 603.0
+offset_bottom = 250.0
 size_flags_horizontal = 3
-mouse_default_cursor_shape = 13
 theme = ExtResource("1_xfdqg")
 script = ExtResource("1_a681c")
-_nameLabel = NodePath("PanelContainer/VBoxContainer/MarginContainer/PanelContainer/Name")
-_initiativeLabel = NodePath("PanelContainer/VBoxContainer/HBoxContainer2/Initiative")
-_dexterityModifierLabel = NodePath("PanelContainer/VBoxContainer/HBoxContainer/Modifier")
-_ACLabel = NodePath("PanelContainer/VBoxContainer/HBoxContainer2/AC")
-_HPLabel = NodePath("PanelContainer/VBoxContainer/HBoxContainer/HP")
 _deleteButton = NodePath("PanelContainer/VBoxContainer/HBoxContainer3/Delete")
 _duplicateButton = NodePath("PanelContainer/VBoxContainer/HBoxContainer3/Duplicate")
 
@@ -25,8 +23,8 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -161.0
-offset_bottom = 161.0
+offset_top = -125.0
+offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -36,65 +34,79 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 20
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/MarginContainer"]
+[node name="Drag Icon" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("_initiativeEntry")]
+layout_mode = 2
+mouse_default_cursor_shape = 6
+texture = ExtResource("3_xipj6")
+stretch_mode = 2
+script = ExtResource("4_wfetp")
+_initiativeEntry = NodePath("../../../..")
+
+[node name="Name" type="TextEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(245, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Example Name..."
+
+[node name="Top Row" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-
-[node name="Name" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/PanelContainer"]
-custom_minimum_size = Vector2(245, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 1
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 1
-clip_text = true
-text_overrun_behavior = 3
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
 theme_override_constants/separation = 30
 
-[node name="AC" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="Initiative" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "AC:"
-horizontal_alignment = 1
 
-[node name="Initiative" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="Initiative" type="Label" parent="PanelContainer/VBoxContainer/Top Row/Initiative"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Initiative:"
-horizontal_alignment = 1
+text = "Initiative"
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/Initiative"]
 layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 30
 
-[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="HP" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "HP:"
-horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="Modifier" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/Top Row/HP"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Modifier:"
-horizontal_alignment = 1
+text = "HP"
 vertical_alignment = 1
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/HP"]
+layout_mode = 2
+
+[node name="AC" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AC" type="Label" parent="PanelContainer/VBoxContainer/Top Row/AC"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "AC"
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/AC"]
+layout_mode = 2
+
+[node name="Modifier" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Modifier" type="Label" parent="PanelContainer/VBoxContainer/Top Row/Modifier"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Modifier"
+vertical_alignment = 1
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/Modifier"]
+layout_mode = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2

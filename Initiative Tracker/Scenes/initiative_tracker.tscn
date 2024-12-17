@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
 [ext_resource type="PackedScene" uid="uid://c3huoailwjv4a" path="res://Scenes/initiative_entry.tscn" id="1_dlqeq"]
 
-[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_nameEntry", "_dexterityModifierEntry", "_ACEntry", "_HPEntry", "_addButton", "_gridContainer")]
+[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_addButton", "_gridContainer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,11 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6an5j")
-_nameEntry = NodePath("Scene Container/Add Entry Container/Add Entry/Name Entry")
-_dexterityModifierEntry = NodePath("Scene Container/Add Entry Container/Add Entry/Dex Mod Entry")
-_ACEntry = NodePath("Scene Container/Add Entry Container/Add Entry/AC Entry")
-_HPEntry = NodePath("Scene Container/Add Entry Container/Add Entry/HP Entry")
-_addButton = NodePath("Scene Container/Add Entry Container/Add Entry/Add Entry")
+_addButton = NodePath("Scene Container/Utilities Container/HBoxContainer/Add Entry/Add Entry")
 _initiativeEntryScene = ExtResource("1_dlqeq")
 _gridContainer = NodePath("Scene Container/Tracker Body Container/ScrollContainer/MarginContainer/Entry Container")
 
@@ -30,44 +26,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 30
 metadata/_edit_use_anchors_ = true
-
-[node name="Add Entry Container" type="PanelContainer" parent="Scene Container"]
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="Add Entry" type="HBoxContainer" parent="Scene Container/Add Entry Container"]
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="Name Entry" type="LineEdit" parent="Scene Container/Add Entry Container/Add Entry"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-placeholder_text = "Name"
-max_length = 30
-
-[node name="Dex Mod Entry" type="SpinBox" parent="Scene Container/Add Entry Container/Add Entry"]
-layout_mode = 2
-size_flags_vertical = 4
-rounded = true
-prefix = "+"
-
-[node name="AC Entry" type="SpinBox" parent="Scene Container/Add Entry Container/Add Entry"]
-layout_mode = 2
-size_flags_vertical = 4
-rounded = true
-
-[node name="HP Entry" type="SpinBox" parent="Scene Container/Add Entry Container/Add Entry"]
-layout_mode = 2
-size_flags_vertical = 4
-max_value = 1000.0
-rounded = true
-
-[node name="Add Entry" type="Button" parent="Scene Container/Add Entry Container/Add Entry"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 8
-text = "Add"
 
 [node name="Tracker Body Container" type="PanelContainer" parent="Scene Container"]
 layout_mode = 2
@@ -88,14 +46,26 @@ theme_override_constants/margin_bottom = 20
 [node name="Entry Container" type="GridContainer" parent="Scene Container/Tracker Body Container/ScrollContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 30
-theme_override_constants/v_separation = 30
-columns = 4
+theme_override_constants/v_separation = 75
+columns = 3
 
 [node name="Utilities Container" type="PanelContainer" parent="Scene Container"]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Utilities Container"]
+layout_mode = 2
+
+[node name="Add Entry" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Add Entry" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Add Entry"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Add Entry"
+
+[node name="VSeparator3" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
 layout_mode = 2
 
 [node name="Dice Rolling" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
