@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ci16kidoujsqi"]
 
 [ext_resource type="LabelSettings" uid="uid://dvlfj72qkoi12" path="res://Settings/Text Settings/Title Settings.tres" id="1_ju5xa"]
-[ext_resource type="Theme" uid="uid://diou15a54f2m4" path="res://Settings/Main Theme.tres" id="2_sxkn1"]
+[ext_resource type="Theme" uid="uid://diou15a54f2m4" path="res://Settings/Themes/Main Theme.tres" id="2_sxkn1"]
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3

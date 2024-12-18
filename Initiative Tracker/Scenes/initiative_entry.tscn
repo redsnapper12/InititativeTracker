@@ -1,25 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3huoailwjv4a"]
+[gd_scene load_steps=7 format=3 uid="uid://c3huoailwjv4a"]
 
 [ext_resource type="Script" path="res://Scripts/InitiativeEntry.cs" id="1_a681c"]
-[ext_resource type="Theme" uid="uid://diou15a54f2m4" path="res://Settings/Main Theme.tres" id="1_xfdqg"]
-[ext_resource type="Texture2D" uid="uid://dk1aoevraowao" path="res://Textures/drag_indicator_64x64.png" id="3_xipj6"]
+[ext_resource type="Theme" uid="uid://dp0ku4lrfchxi" path="res://Settings/Themes/Colorful Theme.tres" id="1_gox41"]
+[ext_resource type="Texture2D" uid="uid://bodx4ndpkrvh1" path="res://Textures/drag_indicator_32x32.png" id="3_luuxg"]
 [ext_resource type="Script" path="res://Scenes/DragEntry.cs" id="4_wfetp"]
+[ext_resource type="Theme" uid="uid://b2ngiuveyt5a7" path="res://Settings/Themes/Buttons/Red Button Theme.tres" id="5_idga6"]
+[ext_resource type="Theme" uid="uid://6cjnhhxewq5j" path="res://Settings/Themes/Buttons/Purple Button Theme.tres" id="6_7swnj"]
 
 [node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_deleteButton", "_duplicateButton")]
-custom_minimum_size = Vector2(600, 250)
+custom_minimum_size = Vector2(320, 300)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 603.0
-offset_bottom = 250.0
+offset_right = 320.0
+offset_bottom = 300.0
 size_flags_horizontal = 3
-theme = ExtResource("1_xfdqg")
+theme = ExtResource("1_gox41")
 script = ExtResource("1_a681c")
 _deleteButton = NodePath("PanelContainer/VBoxContainer/HBoxContainer3/Delete")
 _duplicateButton = NodePath("PanelContainer/VBoxContainer/HBoxContainer3/Duplicate")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 14
+anchors_preset = -1
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -36,26 +38,29 @@ theme_override_constants/separation = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="Drag Icon" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("_initiativeEntry")]
 layout_mode = 2
 mouse_default_cursor_shape = 6
-texture = ExtResource("3_xipj6")
-stretch_mode = 2
+texture = ExtResource("3_luuxg")
+stretch_mode = 5
 script = ExtResource("4_wfetp")
 _initiativeEntry = NodePath("../../../..")
 
-[node name="Name" type="TextEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Name" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(245, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Example Name..."
+max_length = 255
+clear_button_enabled = true
 
-[node name="Top Row" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="Top Row" type="GridContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-theme_override_constants/separation = 30
+columns = 2
 
 [node name="Initiative" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
 layout_mode = 2
@@ -107,8 +112,10 @@ vertical_alignment = 1
 
 [node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/Modifier"]
 layout_mode = 2
+prefix = "+"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -117,7 +124,15 @@ mouse_filter = 2
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
+theme = ExtResource("5_idga6")
 text = "Delete"
+
+[node name="Clear" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme = ExtResource("6_7swnj")
+text = "Clear"
 
 [node name="Duplicate" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2

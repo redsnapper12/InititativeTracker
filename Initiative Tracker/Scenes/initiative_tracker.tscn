@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://balowi2v7juq5"]
+[gd_scene load_steps=5 format=3 uid="uid://balowi2v7juq5"]
 
 [ext_resource type="Script" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
 [ext_resource type="PackedScene" uid="uid://c3huoailwjv4a" path="res://Scenes/initiative_entry.tscn" id="1_dlqeq"]
+[ext_resource type="Theme" uid="uid://cxw7w73a05hrm" path="res://Settings/Themes/Buttons/Green Button Theme.tres" id="3_pu2ok"]
+[ext_resource type="Theme" uid="uid://b2ngiuveyt5a7" path="res://Settings/Themes/Buttons/Red Button Theme.tres" id="5_li3uw"]
 
 [node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_addButton", "_gridContainer")]
 layout_mode = 3
@@ -19,7 +21,7 @@ _gridContainer = NodePath("Scene Container/Tracker Body Container/ScrollContaine
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.015625
-anchor_top = 0.0462963
+anchor_top = 0.0277778
 anchor_right = 0.983507
 anchor_bottom = 0.983025
 grow_horizontal = 2
@@ -46,7 +48,7 @@ theme_override_constants/margin_bottom = 20
 [node name="Entry Container" type="GridContainer" parent="Scene Container/Tracker Body Container/ScrollContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 30
-theme_override_constants/v_separation = 75
+theme_override_constants/v_separation = 30
 columns = 3
 
 [node name="Utilities Container" type="PanelContainer" parent="Scene Container"]
@@ -63,6 +65,7 @@ size_flags_horizontal = 3
 [node name="Add Entry" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Add Entry"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("3_pu2ok")
 text = "Add Entry"
 
 [node name="VSeparator3" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
@@ -81,7 +84,7 @@ text = "Roll Initiative"
 [node name="Roll Inititative All Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Dice Rolling"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Roll Initiative For All"
+text = "Roll All"
 
 [node name="VSeparator" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
 layout_mode = 2
@@ -99,6 +102,7 @@ text = "Sort
 [node name="Clear" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Logic"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("5_li3uw")
 text = "Clear"
 
 [node name="VSeparator2" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
@@ -122,6 +126,7 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Scene Container/Utilities Container/HBoxContainer/Round/MarginContainer/PanelContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Round 1"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -129,4 +134,5 @@ vertical_alignment = 1
 [node name="Advance Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Round"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("3_pu2ok")
 text = "Advance"
