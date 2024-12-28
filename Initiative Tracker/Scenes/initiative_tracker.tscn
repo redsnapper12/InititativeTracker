@@ -1,11 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://balowi2v7juq5"]
+[gd_scene load_steps=3 format=3 uid="uid://balowi2v7juq5"]
 
 [ext_resource type="Script" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
 [ext_resource type="PackedScene" uid="uid://c3huoailwjv4a" path="res://Scenes/initiative_entry.tscn" id="1_dlqeq"]
-[ext_resource type="Theme" uid="uid://cxw7w73a05hrm" path="res://Settings/Themes/Buttons/Green Button Theme.tres" id="3_pu2ok"]
-[ext_resource type="Theme" uid="uid://b2ngiuveyt5a7" path="res://Settings/Themes/Buttons/Red Button Theme.tres" id="5_li3uw"]
 
-[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_addButton", "_gridContainer")]
+[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_gridContainer", "_addEntryButton", "_rollAllButton", "_sortButton", "_clearButton", "_nextButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,9 +11,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6an5j")
-_addButton = NodePath("Scene Container/Utilities Container/HBoxContainer/Add Entry/Add Entry")
 _initiativeEntryScene = ExtResource("1_dlqeq")
 _gridContainer = NodePath("Scene Container/Tracker Body Container/ScrollContainer/MarginContainer/Entry Container")
+_addEntryButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Add Entry/Add Entry Button")
+_rollAllButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Dice Rolling/Roll All Button")
+_sortButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Logic/Sort Button")
+_clearButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Logic/Clear Button")
+_nextButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Round/Next Button")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.0784314, 0.0784314, 1)
 
 [node name="Scene Container" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -51,68 +62,55 @@ theme_override_constants/h_separation = 30
 theme_override_constants/v_separation = 30
 columns = 3
 
-[node name="Utilities Container" type="PanelContainer" parent="Scene Container"]
-custom_minimum_size = Vector2(0, 150)
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="Utilities Container" type="PanelContainer" parent="Scene Container/MarginContainer"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Utilities Container"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/MarginContainer/Utilities Container"]
 layout_mode = 2
 
-[node name="Add Entry" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
+[node name="Add Entry" type="VBoxContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Add Entry" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Add Entry"]
+[node name="Add Entry Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Add Entry"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("3_pu2ok")
 text = "Add Entry"
 
-[node name="VSeparator3" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
-layout_mode = 2
-
-[node name="Dice Rolling" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
+[node name="Dice Rolling" type="VBoxContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Roll Initiative Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Dice Rolling"]
-layout_mode = 2
-size_flags_vertical = 3
-disabled = true
-text = "Roll Initiative"
-
-[node name="Roll Inititative All Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Dice Rolling"]
+[node name="Roll All Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Dice Rolling"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Roll All"
 
-[node name="VSeparator" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
-layout_mode = 2
-
-[node name="Logic" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
+[node name="Logic" type="VBoxContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Sort Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Logic"]
+[node name="Sort Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Logic"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Sort
 "
 
-[node name="Clear" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Logic"]
+[node name="Clear Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Logic"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("5_li3uw")
 text = "Clear"
 
-[node name="VSeparator2" type="VSeparator" parent="Scene Container/Utilities Container/HBoxContainer"]
-layout_mode = 2
-
-[node name="Round" type="VBoxContainer" parent="Scene Container/Utilities Container/HBoxContainer"]
+[node name="Round" type="VBoxContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Utilities Container/HBoxContainer/Round"]
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Round"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
@@ -120,19 +118,14 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="Scene Container/Utilities Container/HBoxContainer/Round/MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="Scene Container/Utilities Container/HBoxContainer/Round/MarginContainer/PanelContainer"]
+[node name="Label" type="Label" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Round/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Round 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Advance Button" type="Button" parent="Scene Container/Utilities Container/HBoxContainer/Round"]
+[node name="Next Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Round"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("3_pu2ok")
-text = "Advance"
+text = "Next"

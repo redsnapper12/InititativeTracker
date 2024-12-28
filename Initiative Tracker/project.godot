@@ -26,7 +26,7 @@ project/assembly_name="Initiative Tracker"
 
 [gui]
 
-theme/custom="res://Settings/Themes/Colorful Theme.tres"
+theme/custom="res://Settings/Themes/Basic Theme.tres"
 
 [input]
 

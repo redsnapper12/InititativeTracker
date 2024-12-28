@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+
+// TODO: UPDATE DRAG CLASS (Some of this is written by claude and does not fit the style of the project)
 public partial class DragEntry : TextureRect
 {
 	[Export] InitiativeEntry _initiativeEntry;
@@ -35,7 +37,7 @@ public partial class DragEntry : TextureRect
         InitiativeEntry closest = null;
         float closestDistance = float.MaxValue;
 
-        foreach (Node child in _initiativeEntry.ParentContainer.GetChildren())
+        foreach (Node child in _initiativeEntry.Tracker.GetChildren())
         {
             if (child is InitiativeEntry entry && entry != _initiativeEntry)
             {
@@ -102,7 +104,7 @@ public partial class DragEntry : TextureRect
         if (targetEntry != null && targetEntry != _initiativeEntry)
         {
             int targetIndex = targetEntry.GetIndex();
-            _initiativeEntry.ParentContainer.MoveChild(_initiativeEntry, targetIndex);
+            _initiativeEntry.Tracker.MoveChild(_initiativeEntry, targetIndex);
         }
     }
 

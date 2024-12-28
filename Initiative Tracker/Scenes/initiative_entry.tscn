@@ -1,23 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3huoailwjv4a"]
+[gd_scene load_steps=6 format=3 uid="uid://c3huoailwjv4a"]
 
 [ext_resource type="Script" path="res://Scripts/InitiativeEntry.cs" id="1_a681c"]
-[ext_resource type="Theme" uid="uid://dp0ku4lrfchxi" path="res://Settings/Themes/Colorful Theme.tres" id="1_gox41"]
+[ext_resource type="Theme" uid="uid://dp0ku4lrfchxi" path="res://Settings/Themes/Basic Theme.tres" id="1_gox41"]
 [ext_resource type="Texture2D" uid="uid://bodx4ndpkrvh1" path="res://Textures/drag_indicator_32x32.png" id="3_luuxg"]
 [ext_resource type="Script" path="res://Scenes/DragEntry.cs" id="4_wfetp"]
-[ext_resource type="Theme" uid="uid://b2ngiuveyt5a7" path="res://Settings/Themes/Buttons/Red Button Theme.tres" id="5_idga6"]
-[ext_resource type="Theme" uid="uid://6cjnhhxewq5j" path="res://Settings/Themes/Buttons/Purple Button Theme.tres" id="6_7swnj"]
+[ext_resource type="Texture2D" uid="uid://cn0e0mrdgs5mn" path="res://Textures/Google Icons/menu_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="5_kywl2"]
 
-[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_deleteButton", "_duplicateButton")]
-custom_minimum_size = Vector2(320, 300)
+[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_menuButton")]
+custom_minimum_size = Vector2(280, 300)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 320.0
+offset_right = 280.0
 offset_bottom = 300.0
 size_flags_horizontal = 3
 theme = ExtResource("1_gox41")
 script = ExtResource("1_a681c")
-_deleteButton = NodePath("PanelContainer/VBoxContainer/HBoxContainer3/Delete")
-_duplicateButton = NodePath("PanelContainer/VBoxContainer/HBoxContainer3/Duplicate")
+_menuButton = NodePath("PanelContainer/VBoxContainer/HBoxContainer3/MarginContainer/OptionButton")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -115,27 +113,23 @@ layout_mode = 2
 prefix = "+"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Delete" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_default_cursor_shape = 2
-theme = ExtResource("5_idga6")
-text = "Delete"
+size_flags_vertical = 4
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
 
-[node name="Clear" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
+[node name="OptionButton" type="MenuButton" parent="PanelContainer/VBoxContainer/HBoxContainer3/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_default_cursor_shape = 2
-theme = ExtResource("6_7swnj")
-text = "Clear"
-
-[node name="Duplicate" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_default_cursor_shape = 2
-text = "Duplicate"
+size_flags_vertical = 4
+icon = ExtResource("5_kywl2")
+flat = false
+icon_alignment = 1
+switch_on_hover = true
