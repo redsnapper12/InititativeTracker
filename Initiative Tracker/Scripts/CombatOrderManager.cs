@@ -7,11 +7,17 @@ public partial class CombatOrderManager
 {
     private List<InitiativeEntry> _combatOrder;
     private InitiativeEntry _activeEntry;
+    private int _round = 1;
     private int _activeEntryIndex = -1;
 
     public int EntryCount
     {
         get => _combatOrder.Count;
+    }
+
+    public int Round
+    {
+        get => _round;
     }
 
     public CombatOrderManager()
@@ -46,13 +52,17 @@ public partial class CombatOrderManager
             // Stop combat
             _activeEntryIndex = -1;
             _activeEntry = null;
+            _round = 1;
         }
         else if (removingActiveEntry)
         {
-            // If removing left us out of bounds, reset index to 0
             if (_activeEntryIndex >= _combatOrder.Count)
             {
                 _activeEntryIndex = 0;
+                _activeEntry = _combatOrder[_activeEntryIndex];
+            }
+            else
+            {
                 _activeEntry = _combatOrder[_activeEntryIndex];
             }
 
@@ -87,6 +97,7 @@ public partial class CombatOrderManager
     public void ClearCombatOrder() 
     {
         _combatOrder.Clear();
+        _round = 1;
     }
 
     private void IterateActiveEntry() 
@@ -98,9 +109,14 @@ public partial class CombatOrderManager
         }
 
         if (_combatOrder.Count > 0)
-        {
+        {   
             // Use modulo to wrap
-            _activeEntryIndex = (_activeEntryIndex + 1) % _combatOrder.Count;
+            int nextIdx = (_activeEntryIndex + 1) % _combatOrder.Count;
+
+            // If we wrapped, increment round
+            if(nextIdx == 0) _round++;
+
+            _activeEntryIndex = nextIdx;
             _activeEntry = _combatOrder[_activeEntryIndex];
             UpdateActiveEntryVisuals();
         }

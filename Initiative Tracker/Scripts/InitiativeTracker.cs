@@ -8,6 +8,8 @@ public partial class InitiativeTracker : Control
 	[Export] private PackedScene _initiativeEntryScene;
 	[Export] private GridContainer _gridContainer;
 
+	[Export] private Label _roundCounterLabel;
+
 	[ExportCategory("Buttons")]
 	[Export] private Button _addEntryButton;
 	[Export] private Button _rollAllButton;
@@ -37,6 +39,11 @@ public partial class InitiativeTracker : Control
 	public void RemoveEntryFromTracker(InitiativeEntry entry) 
 	{
 		_combatOrderManager.RemoveEntryFromCombat(entry);
+		if(_combatOrderManager.EntryCount == 0)
+		{
+			UpdateRoundCounter(_combatOrderManager.Round);
+		} 
+
 		_entries.Remove(entry);
 		entry.QueueFree();
 	}
@@ -60,6 +67,7 @@ public partial class InitiativeTracker : Control
 
 		_entries.Clear();
 		_combatOrderManager.ClearCombatOrder();
+		UpdateRoundCounter(_combatOrderManager.Round);
 	}
 
 	private void RollEntries()
@@ -83,6 +91,12 @@ public partial class InitiativeTracker : Control
 		if(_combatOrderManager.EntryCount > 0)
 		{
 			_combatOrderManager.NextTurn();
+			UpdateRoundCounter(_combatOrderManager.Round);
 		}
+	}
+
+	private void UpdateRoundCounter(int round) 
+	{
+		_roundCounterLabel.Text = "Round " + round;
 	}
 }

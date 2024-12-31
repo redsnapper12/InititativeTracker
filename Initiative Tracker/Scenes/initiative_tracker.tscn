@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
 [ext_resource type="PackedScene" uid="uid://c3huoailwjv4a" path="res://Scenes/initiative_entry.tscn" id="1_dlqeq"]
 
-[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_gridContainer", "_addEntryButton", "_rollAllButton", "_sortButton", "_clearButton", "_nextButton")]
+[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_gridContainer", "_roundCounterLabel", "_addEntryButton", "_rollAllButton", "_sortButton", "_clearButton", "_nextButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,6 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_6an5j")
 _initiativeEntryScene = ExtResource("1_dlqeq")
 _gridContainer = NodePath("Scene Container/Tracker Body Container/ScrollContainer/MarginContainer/Entry Container")
+_roundCounterLabel = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Round/MarginContainer/Label")
 _addEntryButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Add Entry/Add Entry Button")
 _rollAllButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Dice Rolling/Roll All Button")
 _sortButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic/Sort Button")
