@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Godot.Collections;
 
 public partial class InitiativeTracker : Control
 {
@@ -16,30 +16,50 @@ public partial class InitiativeTracker : Control
 	[Export] private Button _nextButton;
 
 	// Used for combat logic
-	public Queue<InitiativeEntry> CombatOrderQueue { get; set; }
-	private InitiativeEntry _currentEntry;
+	private CombatOrderManager _combatOrderManager;
+	private List<InitiativeEntry> _entries;
 	private int _round = 1;
 
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_addEntryButton.Pressed += () => AddEntry();
+		_addEntryButton.Pressed += () => AddEntryToTracker();
 		_rollAllButton.Pressed += () => RollEntries();
 		_sortButton.Pressed += () => SortEntries();
 		_clearButton.Pressed += () => ClearTracker();
 		_nextButton.Pressed += () => AdvanceCombat();
 
-		CombatOrderQueue = new();
+		_combatOrderManager = new();
+		_entries = new();
 	}
 
-	private void AddEntry() 
+	public void RemoveEntryFromTracker(InitiativeEntry entry) 
+	{
+		_combatOrderManager.RemoveEntryFromCombat(entry);
+		_entries.Remove(entry);
+		entry.QueueFree();
+	}
+
+    private void AddEntryToTracker() 
 	{
 		InitiativeEntry newEntry = _initiativeEntryScene.Instantiate<InitiativeEntry>();
 		newEntry.Tracker = this;
 
 		_gridContainer.AddChild(newEntry);
-		CombatOrderQueue.Enqueue(newEntry);
+		_combatOrderManager.AddEntryToCombat(newEntry);
+		_entries.Add(newEntry);
+	}
+
+	private void ClearTracker() 
+	{
+		foreach (InitiativeEntry entry in _entries)
+		{
+			entry.QueueFree();
+		}
+
+		_entries.Clear();
+		_combatOrderManager.ClearCombatOrder();
 	}
 
 	private void RollEntries()
@@ -49,48 +69,20 @@ public partial class InitiativeTracker : Control
 
 	private void SortEntries() 
 	{
-
-	}
-
-	private void ClearTracker() 
-	{
-		if(CombatOrderQueue.Count > 0)
+		_entries = _entries.OrderByDescending(entry => entry.Initiative).ToList();
+		for (int i = 0; i < _entries.Count; i++)
 		{
-			foreach(InitiativeEntry entry in CombatOrderQueue) 
-			{
-				RemoveEntryFromQueue(entry);
-				entry.QueueFree();
-			}
+			_gridContainer.MoveChild(_entries[i], i);
 		}
-		else 
-		{
-			return;
-		}
+	
+		_combatOrderManager.SortCombatOrder();
 	}
 
 	private void AdvanceCombat() 
 	{
-
-	}
-
-
-	private void AddEntryToQueue() 
-	{
-
-	}
-
-	private void UpdateQueue() 
-	{
-		// Convert queue to list, then sort, then reconstruct queue
-		List<InitiativeEntry> order = CombatOrderQueue.OrderBy(e => e.Inititative).ToList();
-		CombatOrderQueue = new Queue<InitiativeEntry>(order);
-
-		GD.Print(CombatOrderQueue.ToString());
-	}
-
-	public void RemoveEntryFromQueue(InitiativeEntry entry)
-	{
-		List<InitiativeEntry> tempList = CombatOrderQueue.Where(e => e != entry).ToList();
-		CombatOrderQueue = new Queue<InitiativeEntry>(tempList);
+		if(_combatOrderManager.EntryCount > 0)
+		{
+			_combatOrderManager.NextTurn();
+		}
 	}
 }

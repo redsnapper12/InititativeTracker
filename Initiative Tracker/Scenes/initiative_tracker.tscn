@@ -13,11 +13,11 @@ grow_vertical = 2
 script = ExtResource("1_6an5j")
 _initiativeEntryScene = ExtResource("1_dlqeq")
 _gridContainer = NodePath("Scene Container/Tracker Body Container/ScrollContainer/MarginContainer/Entry Container")
-_addEntryButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Add Entry/Add Entry Button")
-_rollAllButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Dice Rolling/Roll All Button")
-_sortButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Logic/Sort Button")
-_clearButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Logic/Clear Button")
-_nextButton = NodePath("Scene Container/MarginContainer/Utilities Container/HBoxContainer/Round/Next Button")
+_addEntryButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Add Entry/Add Entry Button")
+_rollAllButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Dice Rolling/Roll All Button")
+_sortButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic/Sort Button")
+_clearButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic/Clear Button")
+_nextButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Round/Next Button")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -62,55 +62,55 @@ theme_override_constants/h_separation = 30
 theme_override_constants/v_separation = 30
 columns = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Scene Container"]
+[node name="Margin Container" type="MarginContainer" parent="Scene Container"]
 layout_mode = 2
 theme_override_constants/margin_bottom = 10
 
-[node name="Utilities Container" type="PanelContainer" parent="Scene Container/MarginContainer"]
+[node name="Panel Container" type="PanelContainer" parent="Scene Container/Margin Container"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/MarginContainer/Utilities Container"]
+[node name="Utility Bar Container" type="HBoxContainer" parent="Scene Container/Margin Container/Panel Container"]
 layout_mode = 2
 
-[node name="Add Entry" type="VBoxContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer"]
+[node name="Add Entry" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Add Entry Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Add Entry"]
+[node name="Add Entry Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Add Entry"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Add Entry"
 
-[node name="Dice Rolling" type="VBoxContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer"]
+[node name="Dice Rolling" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Roll All Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Dice Rolling"]
+[node name="Roll All Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Dice Rolling"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Roll All"
 
-[node name="Logic" type="VBoxContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer"]
+[node name="Logic" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Sort Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Logic"]
+[node name="Sort Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Sort
 "
 
-[node name="Clear Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Logic"]
+[node name="Clear Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Clear"
 
-[node name="Round" type="VBoxContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer"]
+[node name="Round" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Round"]
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Round"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
@@ -118,14 +118,14 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Label" type="Label" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Round/MarginContainer"]
+[node name="Label" type="Label" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Round/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Round 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Next Button" type="Button" parent="Scene Container/MarginContainer/Utilities Container/HBoxContainer/Round"]
+[node name="Next Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Round"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Next"

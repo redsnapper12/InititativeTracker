@@ -1,12 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3huoailwjv4a"]
+[gd_scene load_steps=5 format=3 uid="uid://c3huoailwjv4a"]
 
 [ext_resource type="Script" path="res://Scripts/InitiativeEntry.cs" id="1_a681c"]
 [ext_resource type="Theme" uid="uid://dp0ku4lrfchxi" path="res://Settings/Themes/Basic Theme.tres" id="1_gox41"]
 [ext_resource type="Texture2D" uid="uid://bodx4ndpkrvh1" path="res://Textures/drag_indicator_32x32.png" id="3_luuxg"]
-[ext_resource type="Script" path="res://Scenes/DragEntry.cs" id="4_wfetp"]
 [ext_resource type="Texture2D" uid="uid://cn0e0mrdgs5mn" path="res://Textures/Google Icons/menu_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="5_kywl2"]
 
-[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_menuButton")]
+[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_menuButton", "_initiativeSpinBox")]
 custom_minimum_size = Vector2(280, 300)
 layout_mode = 3
 anchors_preset = 0
@@ -15,9 +14,11 @@ offset_bottom = 300.0
 size_flags_horizontal = 3
 theme = ExtResource("1_gox41")
 script = ExtResource("1_a681c")
-_menuButton = NodePath("PanelContainer/VBoxContainer/HBoxContainer3/MarginContainer/OptionButton")
+_menuButton = NodePath("Panel Container/Entry Vertical Container/Bottom Bar Container/MarginContainer/OptionButton")
+_initiativeSpinBox = NodePath("Panel Container/Entry Vertical Container/Middle Grid/Initiative/SpinBox")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="Panel Container" type="PanelContainer" parent="."]
+modulate = Color(0.968627, 1, 1, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
@@ -29,24 +30,22 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="Entry Vertical Container" type="VBoxContainer" parent="Panel Container"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="Top Bar Container" type="HBoxContainer" parent="Panel Container/Entry Vertical Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Drag Icon" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("_initiativeEntry")]
+[node name="Drag Icon" type="TextureRect" parent="Panel Container/Entry Vertical Container/Top Bar Container"]
 layout_mode = 2
 mouse_default_cursor_shape = 6
 texture = ExtResource("3_luuxg")
 stretch_mode = 5
-script = ExtResource("4_wfetp")
-_initiativeEntry = NodePath("../../../..")
 
-[node name="Name" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Name" type="LineEdit" parent="Panel Container/Entry Vertical Container/Top Bar Container"]
 custom_minimum_size = Vector2(245, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -54,82 +53,81 @@ placeholder_text = "Example Name..."
 max_length = 255
 clear_button_enabled = true
 
-[node name="Top Row" type="GridContainer" parent="PanelContainer/VBoxContainer"]
+[node name="Middle Grid" type="GridContainer" parent="Panel Container/Entry Vertical Container"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 columns = 2
 
-[node name="Initiative" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
+[node name="Initiative" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Initiative" type="Label" parent="PanelContainer/VBoxContainer/Top Row/Initiative"]
+[node name="Initiative" type="Label" parent="Panel Container/Entry Vertical Container/Middle Grid/Initiative"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Initiative"
 vertical_alignment = 1
 
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/Initiative"]
+[node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/Initiative"]
 layout_mode = 2
 
-[node name="HP" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
+[node name="HP" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HP" type="Label" parent="PanelContainer/VBoxContainer/Top Row/HP"]
+[node name="HP" type="Label" parent="Panel Container/Entry Vertical Container/Middle Grid/HP"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "HP"
 vertical_alignment = 1
 
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/HP"]
+[node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/HP"]
 layout_mode = 2
 
-[node name="AC" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
+[node name="AC" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AC" type="Label" parent="PanelContainer/VBoxContainer/Top Row/AC"]
+[node name="AC" type="Label" parent="Panel Container/Entry Vertical Container/Middle Grid/AC"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "AC"
 
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/AC"]
+[node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/AC"]
 layout_mode = 2
 
-[node name="Modifier" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top Row"]
+[node name="Modifier" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Modifier" type="Label" parent="PanelContainer/VBoxContainer/Top Row/Modifier"]
+[node name="Modifier" type="Label" parent="Panel Container/Entry Vertical Container/Middle Grid/Modifier"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Modifier"
 vertical_alignment = 1
 
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Top Row/Modifier"]
+[node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/Modifier"]
 layout_mode = 2
 prefix = "+"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="Bottom Bar Container" type="HBoxContainer" parent="Panel Container/Entry Vertical Container"]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/HBoxContainer3"]
+[node name="MarginContainer" type="MarginContainer" parent="Panel Container/Entry Vertical Container/Bottom Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_right = 50
 
-[node name="OptionButton" type="MenuButton" parent="PanelContainer/VBoxContainer/HBoxContainer3/MarginContainer"]
+[node name="OptionButton" type="MenuButton" parent="Panel Container/Entry Vertical Container/Bottom Bar Container/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 icon = ExtResource("5_kywl2")
 flat = false
 icon_alignment = 1
-switch_on_hover = true
