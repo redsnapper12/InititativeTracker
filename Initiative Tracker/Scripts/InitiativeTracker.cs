@@ -69,7 +69,10 @@ public partial class InitiativeTracker : Control
 
 	private void RollEntries()
 	{
-
+		foreach (InitiativeEntry entry in _entries)
+		{
+			entry.RollInitiative();
+		}
 	}
 
 	private void SortEntries() 

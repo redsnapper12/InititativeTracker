@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class InitiativeEntry : Control
 {	
@@ -75,6 +76,7 @@ public partial class InitiativeEntry : Control
 	enum Actions 
 	{
 		Delete,
+		Roll,
 		Save,
 		Load,
 		Duplicate
@@ -105,6 +107,12 @@ public partial class InitiativeEntry : Control
 			}
 		};
     }
+
+	public void RollInitiative() 
+	{
+		int roll = GD.RandRange(1, 20);
+		_initiativeSpinBox.Value = roll + _dexModifier;
+	}
 
 	private void DeleteEntry() 
 	{
@@ -142,6 +150,9 @@ public partial class InitiativeEntry : Control
 			{
 				case (int)Actions.Delete:
 					DeleteEntry();
+					break;
+				case (int)Actions.Roll:
+					RollInitiative();
 					break;
 				case (int)Actions.Save:
 					SaveEntry();
