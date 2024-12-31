@@ -39,10 +39,7 @@ public partial class InitiativeTracker : Control
 	public void RemoveEntryFromTracker(InitiativeEntry entry) 
 	{
 		_combatOrderManager.RemoveEntryFromCombat(entry);
-		if(_combatOrderManager.EntryCount == 0)
-		{
-			UpdateRoundCounter(_combatOrderManager.Round);
-		} 
+		UpdateRoundCounter(_combatOrderManager.Round);
 
 		_entries.Remove(entry);
 		entry.QueueFree();
@@ -88,7 +85,7 @@ public partial class InitiativeTracker : Control
 
 	private void AdvanceCombat() 
 	{
-		if(_combatOrderManager.EntryCount > 0)
+		if(_combatOrderManager.EntryCount > 1)
 		{
 			_combatOrderManager.NextTurn();
 			UpdateRoundCounter(_combatOrderManager.Round);

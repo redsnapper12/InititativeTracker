@@ -44,39 +44,54 @@ public partial class CombatOrderManager
 	{
 		if(!_combatOrder.Contains(entry)) return;
 
+        int removedIndex = _combatOrder.IndexOf(entry);
         bool removingActiveEntry = _activeEntry == entry;
         _combatOrder.Remove(entry);
 
+
+        // If the combat order is now empty
         if (_combatOrder.Count == 0)
         {
             // Stop combat
             _activeEntryIndex = -1;
             _activeEntry = null;
             _round = 1;
+            return;
         }
-        else if (removingActiveEntry)
+
+        // If we are removing an active entry
+        if (removingActiveEntry)
         {
+            // If the active entry we deleted is at the end
             if (_activeEntryIndex >= _combatOrder.Count)
             {
                 _activeEntryIndex = 0;
-                _activeEntry = _combatOrder[_activeEntryIndex];
-            }
-            else
-            {
-                _activeEntry = _combatOrder[_activeEntryIndex];
+                _round++;
             }
 
-            UpdateActiveEntryVisuals();
-        }
-        else if (_activeEntryIndex >= _combatOrder.Count)
-        {   
-            // if we removed an entry behind the active one move the index back by one to keep the state the same
-            // e.g. Suppose we have an array of: [a, b, c, d, e] where c is our active entry and c's index is 2.
-            // if we remove a, our array will update as such: [b, c, d, e] where c's new index is 1. To remediate this,
-            // we decrement the active entry's index by one to save our state.
-            _activeEntryIndex--;
             _activeEntry = _combatOrder[_activeEntryIndex];
+            UpdateActiveEntryVisuals();
+            return;
         }
+
+        // If we removed an entry before the active entry, adjust the index
+        if (removedIndex < _activeEntryIndex)
+        {
+            _activeEntryIndex--;
+        }
+
+        // Any other case, out-of-bounds checking
+        if (_activeEntryIndex >= _combatOrder.Count)
+        {
+            _activeEntryIndex = 0;
+        }
+        else if (_activeEntryIndex < 0)
+        {
+            _activeEntryIndex = _combatOrder.Count - 1;
+        }
+
+        _activeEntry = _combatOrder[_activeEntryIndex];
+        UpdateActiveEntryVisuals();
 	}
 
     public void SortCombatOrder()
