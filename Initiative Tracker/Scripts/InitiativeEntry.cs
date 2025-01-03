@@ -3,20 +3,22 @@ using System;
 
 public partial class InitiativeEntry : Control
 {	
-	[Export] private MenuButton _menuButton;
-	[Export] private SpinBox _initiativeSpinBox;
-	[Export] private SpinBox _dexModifierSpinBox;
-	[Export] private SpinBox _ACSpinBox;
-	[Export] private SpinBox _HPSpinBox;
+	[Export] public LineEdit _nameEdit;
+	[Export] public SpinBox _initiativeSpinBox;
+	[Export] public SpinBox _dexModifierSpinBox;
+	[Export] public SpinBox _ACSpinBox;
+	[Export] public SpinBox _HPSpinBox;
+	[Export] public MenuButton _menuButton;
 	private PopupMenu _popupMenu = new();
 
 	private InitiativeTracker _tracker;
 
 	// Attributes
-	private int _initiative;
-	private int _dexModifier;
-	private int _AC;
-	private int _HP;
+	private string _characterName = "";
+	private int _initiative = 0;
+	private int _dexModifier = 0;
+	private int _AC = 0;
+	private int _HP = 0;
 
 	public InitiativeTracker Tracker 
 	{ 
@@ -28,6 +30,17 @@ public partial class InitiativeEntry : Control
 		}
 	}
 
+	public string CharacterName 
+	{
+		set
+		{
+			_characterName = value;
+			_nameEdit.Text = value;
+		}
+
+		get => _characterName;
+	}
+	
 	public int Initiative 
 	{
 		set
@@ -38,8 +51,8 @@ public partial class InitiativeEntry : Control
 
 		get => _initiative;
 	}
-
-	public int DexModifier 
+	
+	public int DexModifier
 	{
 		set
 		{

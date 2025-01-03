@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bodx4ndpkrvh1" path="res://Textures/drag_indicator_32x32.png" id="3_luuxg"]
 [ext_resource type="Texture2D" uid="uid://cn0e0mrdgs5mn" path="res://Textures/Google Icons/menu_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="5_kywl2"]
 
-[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_menuButton", "_initiativeSpinBox", "_dexModifierSpinBox", "_ACSpinBox", "_HPSpinBox")]
+[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_nameEdit", "_initiativeSpinBox", "_dexModifierSpinBox", "_ACSpinBox", "_HPSpinBox", "_menuButton")]
 custom_minimum_size = Vector2(280, 300)
 layout_mode = 3
 anchors_preset = 0
@@ -14,11 +14,12 @@ offset_bottom = 300.0
 size_flags_horizontal = 3
 theme = ExtResource("1_gox41")
 script = ExtResource("1_a681c")
-_menuButton = NodePath("Panel Container/Entry Vertical Container/Bottom Bar Container/MarginContainer/OptionButton")
+_nameEdit = NodePath("Panel Container/Entry Vertical Container/Top Bar Container/Name")
 _initiativeSpinBox = NodePath("Panel Container/Entry Vertical Container/Middle Grid/Initiative/SpinBox")
 _dexModifierSpinBox = NodePath("Panel Container/Entry Vertical Container/Middle Grid/Modifier/SpinBox")
 _ACSpinBox = NodePath("Panel Container/Entry Vertical Container/Middle Grid/AC/SpinBox")
 _HPSpinBox = NodePath("Panel Container/Entry Vertical Container/Middle Grid/HP/SpinBox")
+_menuButton = NodePath("Panel Container/Entry Vertical Container/Bottom Bar Container/MarginContainer/OptionButton")
 
 [node name="Panel Container" type="PanelContainer" parent="."]
 modulate = Color(0.968627, 1, 1, 1)
@@ -75,6 +76,21 @@ vertical_alignment = 1
 [node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/Initiative"]
 layout_mode = 2
 
+[node name="Modifier" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Modifier" type="Label" parent="Panel Container/Entry Vertical Container/Middle Grid/Modifier"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dex. Modifier"
+vertical_alignment = 1
+
+[node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/Modifier"]
+layout_mode = 2
+min_value = -100.0
+prefix = "+"
+
 [node name="HP" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -100,21 +116,6 @@ text = "AC"
 
 [node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/AC"]
 layout_mode = 2
-
-[node name="Modifier" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Modifier" type="Label" parent="Panel Container/Entry Vertical Container/Middle Grid/Modifier"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Dex. Modifier"
-vertical_alignment = 1
-
-[node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/Modifier"]
-layout_mode = 2
-min_value = -100.0
-prefix = "+"
 
 [node name="Bottom Bar Container" type="HBoxContainer" parent="Panel Container/Entry Vertical Container"]
 custom_minimum_size = Vector2(0, 25)

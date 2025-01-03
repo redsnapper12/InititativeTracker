@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
 [ext_resource type="PackedScene" uid="uid://c3huoailwjv4a" path="res://Scenes/initiative_entry.tscn" id="1_dlqeq"]
 
-[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_gridContainer", "_roundCounterLabel", "_addEntryButton", "_rollAllButton", "_sortButton", "_clearButton", "_nextButton")]
+[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_gridContainer", "_roundCounterLabel", "_saveFileDialog", "_loadFileDialog", "_addEntryButton", "_rollAllButton", "_saveButton", "_loadButton", "_sortButton", "_clearButton", "_nextButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,13 +14,17 @@ script = ExtResource("1_6an5j")
 _initiativeEntryScene = ExtResource("1_dlqeq")
 _gridContainer = NodePath("Scene Container/Tracker Body Container/ScrollContainer/MarginContainer/Entry Container")
 _roundCounterLabel = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Round/MarginContainer/Label")
+_saveFileDialog = NodePath("SaveFileDialog")
+_loadFileDialog = NodePath("LoadFileDialog")
 _addEntryButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Add Entry/Add Entry Button")
 _rollAllButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Dice Rolling/Roll All Button")
+_saveButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Saving and Loading/Save Button")
+_loadButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Saving and Loading/Load Button")
 _sortButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic/Sort Button")
 _clearButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic/Clear Button")
 _nextButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Round/Next Button")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -92,6 +96,21 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Roll All"
 
+[node name="Saving and Loading" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Save Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Saving and Loading"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Save
+"
+
+[node name="Load Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Saving and Loading"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Load"
+
 [node name="Logic" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -130,3 +149,21 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 text = "Next"
+
+[node name="SaveFileDialog" type="FileDialog" parent="."]
+initial_position = 2
+size = Vector2i(750, 400)
+ok_button_text = "Save"
+dialog_hide_on_ok = true
+access = 2
+use_native_dialog = true
+
+[node name="LoadFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(750, 400)
+ok_button_text = "Open"
+dialog_hide_on_ok = true
+file_mode = 0
+access = 2
+use_native_dialog = true

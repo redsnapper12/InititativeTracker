@@ -16,13 +16,28 @@ run/main_scene="res://Scenes/initiative_tracker.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+AudioManager="*res://Scenes/audio_manager.tscn"
+
 [display]
 
+window/subwindows/embed_subwindows=false
 window/vsync/vsync_mode=0
 
 [dotnet]
 
 project/assembly_name="Initiative Tracker"
+
+[file_customization]
+
+folder_colors={
+"res://Resources/": "red",
+"res://Scenes/": "green",
+"res://Scripts/": "orange",
+"res://Settings/": "purple",
+"res://Sounds/": "blue"
+}
 
 [gui]
 

@@ -1,80 +1,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Godot.Collections;
 
 public partial class InitiativeTracker : Control
 {
-	[Export] private PackedScene _initiativeEntryScene;
+	[Export] public PackedScene _initiativeEntryScene;
 	[Export] private GridContainer _gridContainer;
-
 	[Export] private Label _roundCounterLabel;
+	[Export] private FileDialog _saveFileDialog;
+	[Export] private FileDialog _loadFileDialog;
 
 	[ExportCategory("Buttons")]
 	[Export] private Button _addEntryButton;
 	[Export] private Button _rollAllButton;
+	[Export] private Button _saveButton;
+	[Export] private Button _loadButton;
 	[Export] private Button _sortButton;
 	[Export] private Button _clearButton;
 	[Export] private Button _nextButton;
 
-	// Used for combat logic
-	private CombatOrderManager _combatOrderManager;
-	private List<InitiativeEntry> _entries;
+
+	// Helper classes
+	private CombatOrderManager _combatOrderManager  = new();
+	private EntrySerializer _entrySerializer;
+
+	private List<InitiativeEntry> _entries = new();
 	private int _round = 1;
 
+	public List<InitiativeEntry> Entries { get => _entries; }
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_addEntryButton.Pressed += () => AddEntryToTracker();
-		_rollAllButton.Pressed += () => RollEntries();
-		_sortButton.Pressed += () => SortEntries();
-		_clearButton.Pressed += () => ClearTracker();
-		_nextButton.Pressed += () => AdvanceCombat();
-
-		_combatOrderManager = new();
-		_entries = new();
+		InitButtonSignals();
+		_entrySerializer = new(this, _saveFileDialog, _loadFileDialog);
 	}
 
+	// Public Helpers
 	public void RemoveEntryFromTracker(InitiativeEntry entry) 
 	{
-		_combatOrderManager.RemoveEntryFromCombat(entry);
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIDelete);
+
 		UpdateRoundCounter(_combatOrderManager.Round);
 
+		_combatOrderManager.RemoveEntryFromCombat(entry);
 		_entries.Remove(entry);
 		entry.QueueFree();
 	}
 
-    private void AddEntryToTracker() 
+	public void AddEntryToTracker(InitiativeEntry entry) 
 	{
-		InitiativeEntry newEntry = _initiativeEntryScene.Instantiate<InitiativeEntry>();
-		newEntry.Tracker = this;
+		entry.Tracker = this;
 
-		_gridContainer.AddChild(newEntry);
-		_combatOrderManager.AddEntryToCombat(newEntry);
-		_entries.Add(newEntry);
+		_gridContainer.AddChild(entry);
+		_combatOrderManager.AddEntryToCombat(entry);
+		_entries.Add(entry);
 	}
 
-	private void ClearTracker() 
-	{
-		foreach (InitiativeEntry entry in _entries)
-		{
-			entry.QueueFree();
-		}
-
-		_entries.Clear();
-		_combatOrderManager.ClearCombatOrder();
-		UpdateRoundCounter(_combatOrderManager.Round);
-	}
-
-	private void RollEntries()
-	{
-		foreach (InitiativeEntry entry in _entries)
-		{
-			entry.RollInitiative();
-		}
-	}
-
-	private void SortEntries() 
+	public void SortTracker() 
 	{
 		_entries = _entries.OrderByDescending(entry => entry.Initiative).ToList();
 		for (int i = 0; i < _entries.Count; i++)
@@ -85,17 +70,100 @@ public partial class InitiativeTracker : Control
 		_combatOrderManager.SortCombatOrder();
 	}
 
-	private void AdvanceCombat() 
+	// Button events
+    private void AddEvent() 
 	{
-		if(_combatOrderManager.EntryCount > 1)
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+
+		InitiativeEntry newEntry = _initiativeEntryScene.Instantiate<InitiativeEntry>();
+		AddEntryToTracker(newEntry);
+	}
+
+	private void SaveEvent() 
+	{
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+		_entrySerializer.SaveEntry();
+	}
+
+	private void LoadEvent() 
+	{
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+		_entrySerializer.LoadEntry();
+	}
+
+	private void ClearEvent() 
+	{
+		if(_entries.Count > 0)
 		{
-			_combatOrderManager.NextTurn();
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIDelete);
+
+			foreach (InitiativeEntry entry in _entries)
+			{
+				entry.QueueFree();
+			}
+
+			_entries.Clear();
+			_combatOrderManager.ClearCombatOrder();
 			UpdateRoundCounter(_combatOrderManager.Round);
+		}
+		else
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIError);
 		}
 	}
 
+	private void RollEvent()
+	{
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIRoll);
+
+		foreach (InitiativeEntry entry in _entries)
+		{
+			entry.RollInitiative();
+		}
+	}
+
+	private void SortEvent()
+	{
+		if(_combatOrderManager.EntryCount > 1)
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+			SortTracker();
+		}
+		else 
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIError);
+		}
+	}
+
+	private void AdvanceEvent() 
+	{
+		if(_combatOrderManager.EntryCount > 1)
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+
+			_combatOrderManager.NextTurn();
+			UpdateRoundCounter(_combatOrderManager.Round);
+		}
+		else 
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIError);
+		}
+	}
+
+	// Helpers
 	private void UpdateRoundCounter(int round) 
 	{
 		_roundCounterLabel.Text = "Round " + round;
+	}
+
+	private void InitButtonSignals() 
+	{
+		_addEntryButton.Pressed += () => AddEvent();
+		_rollAllButton.Pressed += () => RollEvent();
+		_sortButton.Pressed += () => SortEvent();
+		_clearButton.Pressed += () => ClearEvent();
+		_nextButton.Pressed += () => AdvanceEvent();
+		_saveButton.Pressed += () => SaveEvent();
+		_loadButton.Pressed += () => LoadEvent();
 	}
 }
