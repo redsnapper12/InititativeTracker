@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EntryData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Resources/Classes/EntryData.cs" id="1_sy8ba"]
+
+[resource]
+script = ExtResource("1_sy8ba")
+CharacterName = "Young White Dragon"
+Initiative = 0
+DexModifier = 0
+AC = 17
+HP = 133

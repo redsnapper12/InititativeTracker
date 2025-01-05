@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EntryData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Resources/Classes/EntryData.cs" id="1_48cgv"]
+
+[resource]
+script = ExtResource("1_48cgv")
+CharacterName = "Unicorn"
+Initiative = 0
+DexModifier = 2
+AC = 12
+HP = 67

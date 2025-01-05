@@ -1,9 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://balowi2v7juq5"]
+[gd_scene load_steps=10 format=3 uid="uid://balowi2v7juq5"]
 
 [ext_resource type="Script" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
 [ext_resource type="PackedScene" uid="uid://c3huoailwjv4a" path="res://Scenes/initiative_entry.tscn" id="1_dlqeq"]
+[ext_resource type="PackedScene" uid="uid://cpoghdttgn6cp" path="res://Scenes/entry_serializer.tscn" id="3_idpcr"]
+[ext_resource type="Texture2D" uid="uid://cw1xgtma77pul" path="res://Textures/Google Icons/save_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="3_r6t6c"]
+[ext_resource type="Texture2D" uid="uid://br38muhl88t2e" path="res://Textures/Google Icons/add_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="3_sle5d"]
+[ext_resource type="Texture2D" uid="uid://fujc0jrobph2" path="res://Textures/Google Icons/casino_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="4_p13ga"]
+[ext_resource type="Texture2D" uid="uid://dog5bcp4q1flm" path="res://Textures/Google Icons/folder_open_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="4_u0e5j"]
+[ext_resource type="Texture2D" uid="uid://cacpn7tmwiroe" path="res://Textures/Google Icons/sort_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="5_2hca8"]
+[ext_resource type="Texture2D" uid="uid://dfqe7tmphqo23" path="res://Textures/Google Icons/delete_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="6_teq6q"]
 
-[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_gridContainer", "_roundCounterLabel", "_saveFileDialog", "_loadFileDialog", "_addEntryButton", "_rollAllButton", "_saveButton", "_loadButton", "_sortButton", "_clearButton", "_nextButton")]
+[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_entrySerializer", "_gridContainer", "_roundCounterLabel", "_addEntryButton", "_rollAllButton", "_saveButton", "_loadButton", "_sortButton", "_clearButton", "_nextButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,11 +18,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6an5j")
+_entrySerializer = NodePath("EntrySerializer")
 _initiativeEntryScene = ExtResource("1_dlqeq")
 _gridContainer = NodePath("Scene Container/Tracker Body Container/ScrollContainer/MarginContainer/Entry Container")
 _roundCounterLabel = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Round/MarginContainer/Label")
-_saveFileDialog = NodePath("SaveFileDialog")
-_loadFileDialog = NodePath("LoadFileDialog")
 _addEntryButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Add Entry/Add Entry Button")
 _rollAllButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Dice Rolling/Roll All Button")
 _saveButton = NodePath("Scene Container/Margin Container/Panel Container/Utility Bar Container/Saving and Loading/Save Button")
@@ -51,6 +57,7 @@ size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Scene Container/Tracker Body Container"]
 layout_mode = 2
+follow_focus = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Scene Container/Tracker Body Container/ScrollContainer"]
 layout_mode = 2
@@ -80,51 +87,72 @@ layout_mode = 2
 
 [node name="Add Entry" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 
 [node name="Add Entry Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Add Entry"]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
-text = "Add Entry"
+mouse_default_cursor_shape = 2
+text = "Add Entry   "
+icon = ExtResource("3_sle5d")
 
 [node name="Dice Rolling" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 
 [node name="Roll All Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Dice Rolling"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Roll All"
+mouse_default_cursor_shape = 2
+text = "Roll All   "
+icon = ExtResource("4_p13ga")
 
 [node name="Saving and Loading" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 
 [node name="Save Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Saving and Loading"]
 layout_mode = 2
-size_flags_vertical = 3
-text = "Save
-"
+size_flags_vertical = 4
+tooltip_text = "Save Entry Group"
+mouse_default_cursor_shape = 2
+text = "Save   "
+icon = ExtResource("3_r6t6c")
 
-[node name="Load Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Saving and Loading"]
+[node name="Load Button" type="MenuButton" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Saving and Loading"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Load"
+tooltip_text = "Load Entry Group"
+mouse_default_cursor_shape = 2
+text = "Load   "
+icon = ExtResource("4_u0e5j")
+flat = false
+item_count = 2
+popup/item_0/text = "Load Custom Entry"
+popup/item_0/id = 0
+popup/item_1/text = "Load Built-In Entry"
+popup/item_1/id = 1
 
 [node name="Logic" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 
 [node name="Sort Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_default_cursor_shape = 2
 text = "Sort
 "
+icon = ExtResource("5_2hca8")
+alignment = 0
 
 [node name="Clear Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Logic"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Clear"
+mouse_default_cursor_shape = 2
+text = "Clear   "
+icon = ExtResource("6_teq6q")
 
 [node name="Round" type="VBoxContainer" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container"]
 layout_mode = 2
@@ -140,6 +168,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="Label" type="Label" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Round/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 32
 text = "Round 1"
 horizontal_alignment = 1
@@ -148,22 +177,8 @@ vertical_alignment = 1
 [node name="Next Button" type="Button" parent="Scene Container/Margin Container/Panel Container/Utility Bar Container/Round"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 0
 text = "Next"
 
-[node name="SaveFileDialog" type="FileDialog" parent="."]
-initial_position = 2
-size = Vector2i(750, 400)
-ok_button_text = "Save"
-dialog_hide_on_ok = true
-access = 2
-use_native_dialog = true
-
-[node name="LoadFileDialog" type="FileDialog" parent="."]
-title = "Open a File"
-initial_position = 2
-size = Vector2i(750, 400)
-ok_button_text = "Open"
-dialog_hide_on_ok = true
-file_mode = 0
-access = 2
-use_native_dialog = true
+[node name="EntrySerializer" parent="." instance=ExtResource("3_idpcr")]

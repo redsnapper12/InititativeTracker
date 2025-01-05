@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class EntryData : Resource
+[GlobalClass] public partial class EntryData : Resource
 {
     [Export] public string CharacterName { get; set; } = "";
     [Export] public int Initiative { get; set; }

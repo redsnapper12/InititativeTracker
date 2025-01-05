@@ -1,48 +1,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Godot.Collections;
 
 public partial class InitiativeTracker : Control
 {
-	[Export] public PackedScene _initiativeEntryScene;
+	[Export] private EntrySerializer _entrySerializer;
+	[Export] private PackedScene _initiativeEntryScene;
 	[Export] private GridContainer _gridContainer;
 	[Export] private Label _roundCounterLabel;
-	[Export] private FileDialog _saveFileDialog;
-	[Export] private FileDialog _loadFileDialog;
 
 	[ExportCategory("Buttons")]
 	[Export] private Button _addEntryButton;
 	[Export] private Button _rollAllButton;
 	[Export] private Button _saveButton;
-	[Export] private Button _loadButton;
+	[Export] private MenuButton _loadButton;
 	[Export] private Button _sortButton;
 	[Export] private Button _clearButton;
 	[Export] private Button _nextButton;
-
-
+	private PopupMenu _popupMenu = new();
+	
 	// Helper classes
-	private CombatOrderManager _combatOrderManager  = new();
-	private EntrySerializer _entrySerializer;
+	private readonly CombatOrderManager _combatOrderManager  = new();
 
 	private List<InitiativeEntry> _entries = new();
-	private int _round = 1;
-
 	public List<InitiativeEntry> Entries { get => _entries; }
-	
 
+	public PackedScene InititativeEntryScene { get => _initiativeEntryScene; }
+	public EntrySerializer EntrySerializer { get => _entrySerializer; }
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		_entrySerializer.Tracker = this;
+		_popupMenu = _loadButton.GetPopup();
 		InitButtonSignals();
-		_entrySerializer = new(this, _saveFileDialog, _loadFileDialog);
 	}
 
 	// Public Helpers
 	public void RemoveEntryFromTracker(InitiativeEntry entry) 
 	{
-		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIDelete);
-
 		UpdateRoundCounter(_combatOrderManager.Round);
 
 		_combatOrderManager.RemoveEntryFromCombat(entry);
@@ -50,13 +46,23 @@ public partial class InitiativeTracker : Control
 		entry.QueueFree();
 	}
 
-	public void AddEntryToTracker(InitiativeEntry entry) 
+	public void AddEntryToTracker(InitiativeEntry entry, int index = -1) 
 	{
 		entry.Tracker = this;
 
-		_gridContainer.AddChild(entry);
-		_combatOrderManager.AddEntryToCombat(entry);
-		_entries.Add(entry);
+		if(index == -1)
+		{
+			_gridContainer.AddChild(entry);
+			_combatOrderManager.AddEntryToCombat(entry);
+			_entries.Add(entry);
+		}
+		else 
+		{
+			_gridContainer.AddChild(entry);
+			_gridContainer.MoveChild(entry, index);
+			_combatOrderManager.AddEntryToCombat(entry, index);
+			_entries.Insert(index, entry);
+		}
 	}
 
 	public void SortTracker() 
@@ -66,7 +72,7 @@ public partial class InitiativeTracker : Control
 		{
 			_gridContainer.MoveChild(_entries[i], i);
 		}
-	
+
 		_combatOrderManager.SortCombatOrder();
 	}
 
@@ -82,13 +88,13 @@ public partial class InitiativeTracker : Control
 	private void SaveEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		_entrySerializer.SaveEntry();
+		_entrySerializer.SaveEntries(_entries);
 	}
 
 	private void LoadEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		_entrySerializer.LoadEntry();
+		_entrySerializer.LoadEntries();
 	}
 
 	private void ClearEvent() 
@@ -124,7 +130,7 @@ public partial class InitiativeTracker : Control
 
 	private void SortEvent()
 	{
-		if(_combatOrderManager.EntryCount > 1)
+		if(_entries.Count > 1)
 		{
 			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
 			SortTracker();
@@ -137,7 +143,7 @@ public partial class InitiativeTracker : Control
 
 	private void AdvanceEvent() 
 	{
-		if(_combatOrderManager.EntryCount > 1)
+		if(_entries.Count > 1)
 		{
 			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
 
@@ -156,6 +162,22 @@ public partial class InitiativeTracker : Control
 		_roundCounterLabel.Text = "Round " + round;
 	}
 
+	private void HandleLoadButtonInput(int id) 
+	{
+		switch (id)
+		{
+			case 0:
+				_entrySerializer.LoadEntries();
+				break;
+			case 1:
+				_entrySerializer.LoadBuiltInEntry();
+				break;
+			default:
+				GD.PrintErr("Popup menu recieved an invalid ID: " + id);
+				break;
+		}
+	}
+
 	private void InitButtonSignals() 
 	{
 		_addEntryButton.Pressed += () => AddEvent();
@@ -164,6 +186,7 @@ public partial class InitiativeTracker : Control
 		_clearButton.Pressed += () => ClearEvent();
 		_nextButton.Pressed += () => AdvanceEvent();
 		_saveButton.Pressed += () => SaveEvent();
-		_loadButton.Pressed += () => LoadEvent();
+		_loadButton.Pressed += () => AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+		_popupMenu.IdPressed += (id) => HandleLoadButtonInput((int)id);
 	}
 }

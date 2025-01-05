@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EntryData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Resources/Classes/EntryData.cs" id="1_lg0n3"]
+
+[resource]
+script = ExtResource("1_lg0n3")
+CharacterName = "Winter Wolf"
+Initiative = 0
+DexModifier = 1
+AC = 13
+HP = 75

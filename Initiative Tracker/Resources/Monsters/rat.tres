@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EntryData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Resources/Classes/EntryData.cs" id="1_1bofe"]
+
+[resource]
+script = ExtResource("1_1bofe")
+CharacterName = "Rat"
+Initiative = 0
+DexModifier = 0
+AC = 10
+HP = 1

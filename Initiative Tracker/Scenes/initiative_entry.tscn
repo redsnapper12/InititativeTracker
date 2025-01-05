@@ -75,6 +75,8 @@ vertical_alignment = 1
 
 [node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/Initiative"]
 layout_mode = 2
+min_value = -100.0
+update_on_text_changed = true
 
 [node name="Modifier" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
 layout_mode = 2
@@ -89,6 +91,7 @@ vertical_alignment = 1
 [node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/Modifier"]
 layout_mode = 2
 min_value = -100.0
+update_on_text_changed = true
 prefix = "+"
 
 [node name="HP" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
@@ -103,7 +106,9 @@ vertical_alignment = 1
 
 [node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/HP"]
 layout_mode = 2
+min_value = -999.0
 max_value = 999.0
+update_on_text_changed = true
 
 [node name="AC" type="VBoxContainer" parent="Panel Container/Entry Vertical Container/Middle Grid"]
 layout_mode = 2
@@ -116,6 +121,7 @@ text = "AC"
 
 [node name="SpinBox" type="SpinBox" parent="Panel Container/Entry Vertical Container/Middle Grid/AC"]
 layout_mode = 2
+update_on_text_changed = true
 
 [node name="Bottom Bar Container" type="HBoxContainer" parent="Panel Container/Entry Vertical Container"]
 custom_minimum_size = Vector2(0, 25)

@@ -1,5 +1,3 @@
-using Godot;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,22 +8,14 @@ public partial class CombatOrderManager
     private int _round = 1;
     private int _activeEntryIndex = -1;
 
-    public int EntryCount
-    {
-        get => _combatOrder.Count;
-    }
-
-    public int Round
-    {
-        get => _round;
-    }
+    public int Round { get => _round; }
 
     public CombatOrderManager()
     {
         _combatOrder = new();
     }
 
-    public void AddEntryToCombat(InitiativeEntry entry) 
+    public void AddEntryToCombat(InitiativeEntry entry, int index = -1) 
 	{	
 		if(_combatOrder.Count == 0) 
         {
@@ -37,7 +27,14 @@ public partial class CombatOrderManager
             return;
         }
 
-        _combatOrder.Add(entry);
+        if(index == -1)
+        {
+            _combatOrder.Add(entry);
+        }
+        else
+        {
+            _combatOrder.Insert(index, entry);
+        }    
 	}
 
 	public void RemoveEntryFromCombat(InitiativeEntry entry)
@@ -98,8 +95,11 @@ public partial class CombatOrderManager
     {
         if(_combatOrder.Count > 0) 
         {
-            _combatOrder = _combatOrder.OrderBy(entry => entry.Initiative).ToList();
+            ResetActiveEntryVisuals();
+            _combatOrder = _combatOrder.OrderByDescending(entry => entry.Initiative).ToList();
             _activeEntryIndex = 0;
+            _activeEntry = _combatOrder[_activeEntryIndex];
+            UpdateActiveEntryVisuals();
         }
     }
 
@@ -118,10 +118,7 @@ public partial class CombatOrderManager
     private void IterateActiveEntry() 
     {
         // Update visuals for old entry
-        if (_activeEntryIndex >= 0 && _activeEntryIndex < _combatOrder.Count)
-        {
-            _activeEntry.Modulate = new(1.0f, 1.0f, 1.0f, 1.0f);
-        }
+        ResetActiveEntryVisuals();
 
         if (_combatOrder.Count > 0)
         {   
@@ -147,6 +144,14 @@ public partial class CombatOrderManager
         if (_activeEntryIndex >= 0 && _activeEntryIndex < _combatOrder.Count)
         {
             _activeEntry.Modulate = new(0.9f, 0.9f, 1.0f, 0.75f);
+        }
+    }
+
+    private void ResetActiveEntryVisuals()
+    {
+        if (_activeEntryIndex >= 0 && _activeEntryIndex < _combatOrder.Count)
+        {
+            _activeEntry.Modulate = new(1.0f, 1.0f, 1.0f, 1.0f);
         }
     }
 }
