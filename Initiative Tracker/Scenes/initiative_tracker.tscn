@@ -117,6 +117,7 @@ layout_mode = 2
 size_flags_vertical = 4
 tooltip_text = "Save Entry Group"
 mouse_default_cursor_shape = 2
+disabled = true
 text = "Save   "
 icon = ExtResource("3_r6t6c")
 
@@ -125,6 +126,7 @@ layout_mode = 2
 size_flags_vertical = 3
 tooltip_text = "Load Entry Group"
 mouse_default_cursor_shape = 2
+disabled = true
 text = "Load   "
 icon = ExtResource("4_u0e5j")
 flat = false

@@ -29,6 +29,7 @@ dialog_hide_on_ok = true
 file_mode = 0
 access = 1
 filters = PackedStringArray("*.tres ; Resource Files")
+use_native_dialog = true
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 size = Vector2i(151, 100)

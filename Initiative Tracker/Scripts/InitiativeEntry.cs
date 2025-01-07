@@ -69,6 +69,8 @@ public partial class InitiativeEntry : Control
         for (int i = 0; i < actions.Length; i++)
 		{
 			_popupMenu.AddItem(actions[i].ToString(), i);
+			
+			if(actions[i] == Actions.Save || actions[i] == Actions.Load) _popupMenu.SetItemDisabled(i, true);
 		}
 	}
 
