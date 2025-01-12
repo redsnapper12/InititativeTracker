@@ -13,12 +13,11 @@ public partial class InitiativeTracker : Control
 	[Export] private Button _addEntryButton;
 	[Export] private Button _rollAllButton;
 	[Export] private Button _saveButton;
-	[Export] private MenuButton _loadButton;
+	[Export] private Button _loadButton;
 	[Export] private Button _sortButton;
 	[Export] private Button _clearButton;
 	[Export] private Button _nextButton;
-	private PopupMenu _popupMenu = new();
-	
+
 	// Helper classes
 	private readonly CombatOrderManager _combatOrderManager  = new();
 
@@ -31,8 +30,6 @@ public partial class InitiativeTracker : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_entrySerializer.Tracker = this;
-		_popupMenu = _loadButton.GetPopup();
 		InitButtonSignals();
 	}
 
@@ -46,23 +43,12 @@ public partial class InitiativeTracker : Control
 		entry.QueueFree();
 	}
 
-	public void AddEntryToTracker(InitiativeEntry entry, int index = -1) 
+	public void AddEntryToTracker(InitiativeEntry entry) 
 	{
 		entry.Tracker = this;
-
-		if(index == -1)
-		{
-			_gridContainer.AddChild(entry);
-			_combatOrderManager.AddEntryToCombat(entry);
-			_entries.Add(entry);
-		}
-		else 
-		{
-			_gridContainer.AddChild(entry);
-			_gridContainer.MoveChild(entry, index);
-			_combatOrderManager.AddEntryToCombat(entry, index);
-			_entries.Insert(index, entry);
-		}
+		_gridContainer.AddChild(entry);
+		_combatOrderManager.AddEntryToCombat(entry);
+		_entries.Add(entry);
 	}
 
 	public void SortTracker() 
@@ -88,13 +74,14 @@ public partial class InitiativeTracker : Control
 	private void SaveEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		_entrySerializer.SaveEntries(_entries);
+		//_entrySerializer.SaveEntries(_entries);
+		// TODO
 	}
 
 	private void LoadEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		_entrySerializer.LoadEntries();
+		_entrySerializer.PromptLoad();
 	}
 
 	private void ClearEvent() 
@@ -162,22 +149,6 @@ public partial class InitiativeTracker : Control
 		_roundCounterLabel.Text = "Round " + round;
 	}
 
-	private void HandleLoadButtonInput(int id) 
-	{
-		switch (id)
-		{
-			case 0:
-				_entrySerializer.LoadEntries();
-				break;
-			case 1:
-				_entrySerializer.LoadBuiltInEntry();
-				break;
-			default:
-				GD.PrintErr("Popup menu recieved an invalid ID: " + id);
-				break;
-		}
-	}
-
 	private void InitButtonSignals() 
 	{
 		_addEntryButton.Pressed += () => AddEvent();
@@ -186,7 +157,6 @@ public partial class InitiativeTracker : Control
 		_clearButton.Pressed += () => ClearEvent();
 		_nextButton.Pressed += () => AdvanceEvent();
 		_saveButton.Pressed += () => SaveEvent();
-		_loadButton.Pressed += () => AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		_popupMenu.IdPressed += (id) => HandleLoadButtonInput((int)id);
+		_loadButton.Pressed += () => LoadEvent();
 	}
 }

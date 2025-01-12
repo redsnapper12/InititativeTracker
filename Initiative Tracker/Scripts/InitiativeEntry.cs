@@ -36,10 +36,9 @@ public partial class InitiativeEntry : Control
 
 	enum Actions 
 	{
-		Delete,
 		Roll,
 		Save,
-		Load,
+		Delete,
 		Duplicate
 	}
 
@@ -69,8 +68,6 @@ public partial class InitiativeEntry : Control
         for (int i = 0; i < actions.Length; i++)
 		{
 			_popupMenu.AddItem(actions[i].ToString(), i);
-			
-			if(actions[i] == Actions.Save || actions[i] == Actions.Load) _popupMenu.SetItemDisabled(i, true);
 		}
 	}
 
@@ -86,9 +83,6 @@ public partial class InitiativeEntry : Control
 				break;
 			case (int)Actions.Save:
 				SaveEvent();
-				break;
-			case (int)Actions.Load:
-				LoadEvent();
 				break;
 			case (int)Actions.Duplicate:
 				DuplicateEvent();
@@ -138,7 +132,7 @@ public partial class InitiativeEntry : Control
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
 		
 		InitiativeEntry duplicateEntry = _tracker.InititativeEntryScene.Instantiate<InitiativeEntry>();
-		_tracker.AddEntryToTracker(duplicateEntry, GetIndex() + 1);
+		_tracker.AddEntryToTracker(duplicateEntry);
 
         duplicateEntry.CharacterName = _characterName;
     	duplicateEntry.Initiative = _initiative;
@@ -150,12 +144,14 @@ public partial class InitiativeEntry : Control
 	private void SaveEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		_tracker.EntrySerializer.SaveEntry(this);
+		//EntrySerializer.SaveEntry(this);
+		// TODO
 	}
 
 	private void LoadEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		_tracker.EntrySerializer.LoadEntry(this);
+		//EntrySerializer.LoadEntry();
+		// TODO
 	}
 }

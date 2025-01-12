@@ -1,41 +1,64 @@
-[gd_scene load_steps=2 format=3 uid="uid://cpoghdttgn6cp"]
+[gd_scene load_steps=2 format=3 uid="uid://bcfp3wsujp3fd"]
 
-[ext_resource type="Script" path="res://Scripts/Helper Classes/EntrySerializer.cs" id="1_cu3c7"]
+[ext_resource type="Script" path="res://Scripts/Helper Classes/EntrySerializer.cs" id="1_5qa6v"]
 
-[node name="EntrySerializer" type="Node" node_paths=PackedStringArray("_saveFileDialog", "_loadFileDialog")]
-script = ExtResource("1_cu3c7")
-_saveFileDialog = NodePath("SaveFileDialog")
-_loadFileDialog = NodePath("LoadFileDialog")
-_singleEntryDir = "user://saves//single_entries"
-_groupEntryDir = "user://saves//entry_groups"
-_builtInEntryDir = "res://Resources//Monsters//"
-_rootDir = "user://saves"
+[node name="EntrySerializer" type="MarginContainer" node_paths=PackedStringArray("_customList", "_builtInList")]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_5qa6v")
+_customList = NodePath("TabContainer/Custom/Custom")
+_builtInList = NodePath("TabContainer/Built-In/Built-In")
+_builtInEntryDir = "res://Resources/Monsters/"
 
-[node name="SaveFileDialog" type="FileDialog" parent="."]
-initial_position = 2
-size = Vector2i(750, 400)
-ok_button_text = "Save"
-dialog_hide_on_ok = true
-access = 1
-filters = PackedStringArray("*.tres ; Resource Files")
-use_native_dialog = true
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 2
 
-[node name="LoadFileDialog" type="FileDialog" parent="."]
-title = "Open a File"
-initial_position = 2
-size = Vector2i(750, 400)
-ok_button_text = "Open"
-dialog_hide_on_ok = true
-file_mode = 0
-access = 1
-filters = PackedStringArray("*.tres ; Resource Files")
-use_native_dialog = true
+[node name="Built-In" type="ScrollContainer" parent="TabContainer"]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
 
-[node name="PopupMenu" type="PopupMenu" parent="."]
-size = Vector2i(151, 100)
-item_count = 2
-item_0/text = "Custom Entry"
-item_0/checked = true
-item_0/id = 0
-item_1/text = "Built-In Entries"
-item_1/id = 1
+[node name="Built-In" type="ItemList" parent="TabContainer/Built-In"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
+max_text_lines = 2
+auto_height = true
+max_columns = 2
+same_column_width = true
+icon_scale = 0.3
+
+[node name="Custom" type="ScrollContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Custom" type="ItemList" parent="TabContainer/Custom"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+auto_height = true
+item_count = 4
+max_columns = 2
+same_column_width = true
+fixed_column_width = 75
+icon_mode = 0
+fixed_icon_size = Vector2i(50, 50)
+item_0/text = "Elf"
+item_1/text = "Human"
+item_2/text = "Orc"
+item_3/text = "Dwarf"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "  Close  "

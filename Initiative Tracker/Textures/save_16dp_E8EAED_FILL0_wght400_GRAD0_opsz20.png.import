@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7krash1yl1aa"
-path="res://.godot/imported/save_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png-2f360202521c16fc60a7294219ba9ee1.ctex"
+path="res://.godot/imported/save_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png-8a808b29e1d33eb9317d91d369179bfa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Monsters/save_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png"
-dest_files=["res://.godot/imported/save_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png-2f360202521c16fc60a7294219ba9ee1.ctex"]
+source_file="res://Textures/save_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png"
+dest_files=["res://.godot/imported/save_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png-8a808b29e1d33eb9317d91d369179bfa.ctex"]
 
 [params]
 
