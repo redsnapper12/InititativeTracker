@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3huoailwjv4a"]
+[gd_scene load_steps=4 format=3 uid="uid://c3huoailwjv4a"]
 
 [ext_resource type="Script" path="res://Scripts/InitiativeEntry.cs" id="1_a681c"]
 [ext_resource type="Theme" uid="uid://dp0ku4lrfchxi" path="res://Settings/Themes/Basic Theme.tres" id="1_gox41"]
-[ext_resource type="Texture2D" uid="uid://bodx4ndpkrvh1" path="res://Textures/drag_indicator_32x32.png" id="3_luuxg"]
 [ext_resource type="Texture2D" uid="uid://cn0e0mrdgs5mn" path="res://Textures/Google Icons/menu_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="5_kywl2"]
 
 [node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_nameEdit", "_initiativeSpinBox", "_dexModifierSpinBox", "_ACSpinBox", "_HPSpinBox", "_menuButton")]
@@ -42,12 +41,6 @@ theme_override_constants/separation = 20
 [node name="Top Bar Container" type="HBoxContainer" parent="Panel Container/Entry Vertical Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
-
-[node name="Drag Icon" type="TextureRect" parent="Panel Container/Entry Vertical Container/Top Bar Container"]
-layout_mode = 2
-mouse_default_cursor_shape = 6
-texture = ExtResource("3_luuxg")
-stretch_mode = 5
 
 [node name="Name" type="LineEdit" parent="Panel Container/Entry Vertical Container/Top Bar Container"]
 custom_minimum_size = Vector2(245, 50)

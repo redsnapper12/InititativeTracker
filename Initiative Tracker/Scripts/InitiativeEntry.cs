@@ -38,8 +38,8 @@ public partial class InitiativeEntry : Control
 	{
 		Roll,
 		Save,
-		Delete,
-		Duplicate
+		Duplicate,
+		Delete
 	}
 
 	public override void _Ready()
@@ -79,7 +79,7 @@ public partial class InitiativeEntry : Control
 				DeleteEvent();
 				break;
 			case (int)Actions.Roll:
-				RollInitiative();
+				RollEvent();
 				break;
 			case (int)Actions.Save:
 				SaveEvent();

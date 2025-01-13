@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Helper Classes/EntrySerializer.cs" id="1_5qa6v"]
 
-[node name="EntrySerializer" type="MarginContainer" node_paths=PackedStringArray("_customList", "_builtInList")]
+[node name="EntrySerializer" type="MarginContainer" node_paths=PackedStringArray("_customList", "_standardRulesList", "_closeMenuButton")]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,23 +10,42 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 script = ExtResource("1_5qa6v")
 _customList = NodePath("TabContainer/Custom/Custom")
-_builtInList = NodePath("TabContainer/Built-In/Built-In")
-_builtInEntryDir = "res://Resources/Monsters/"
+_standardRulesList = NodePath("TabContainer/Standard Rules/Standard Rules")
+_closeMenuButton = NodePath("Button")
+standardRulesEntriesDir = "res://Resources/Monsters/"
+_customSaveDir = "user://saves/"
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
+current_tab = 0
 
-[node name="Built-In" type="ScrollContainer" parent="TabContainer"]
+[node name="Standard Rules" type="ScrollContainer" parent="TabContainer"]
 layout_mode = 2
-follow_focus = true
 horizontal_scroll_mode = 0
+metadata/_tab_index = 0
 
-[node name="Built-In" type="ItemList" parent="TabContainer/Built-In"]
+[node name="Standard Rules" type="ItemList" parent="TabContainer/Standard Rules"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
+select_mode = 1
+max_text_lines = 2
+auto_height = true
+max_columns = 2
+same_column_width = true
+icon_scale = 0.3
+
+[node name="Custom" type="ScrollContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Custom" type="ItemList" parent="TabContainer/Custom"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -37,25 +56,21 @@ max_columns = 2
 same_column_width = true
 icon_scale = 0.3
 
-[node name="Custom" type="ScrollContainer" parent="TabContainer"]
+[node name="Groups | Encounters" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 2
 
-[node name="Custom" type="ItemList" parent="TabContainer/Custom"]
+[node name="Groups | Encounters" type="ItemList" parent="TabContainer/Groups | Encounters"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
+max_text_lines = 2
 auto_height = true
-item_count = 4
 max_columns = 2
 same_column_width = true
-fixed_column_width = 75
-icon_mode = 0
-fixed_icon_size = Vector2i(50, 50)
-item_0/text = "Elf"
-item_1/text = "Human"
-item_2/text = "Orc"
-item_3/text = "Dwarf"
+icon_scale = 0.3
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2

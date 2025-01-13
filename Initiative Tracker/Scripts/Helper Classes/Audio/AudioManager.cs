@@ -22,7 +22,7 @@ public partial class AudioManager : AudioStreamPlayer
 		{
 			QueueFree();
 		}
-    	_instance = this;
+		_instance = this;
   	}
 
 	public void PlaySound(Sounds sound) 

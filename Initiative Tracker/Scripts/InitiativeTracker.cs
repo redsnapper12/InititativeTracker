@@ -63,7 +63,7 @@ public partial class InitiativeTracker : Control
 	}
 
 	// Button events
-    private void AddEvent() 
+	private void AddEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
 
