@@ -2,22 +2,27 @@
 
 [ext_resource type="Script" path="res://Scripts/Helper Classes/EntrySerializer.cs" id="1_5qa6v"]
 
-[node name="EntrySerializer" type="MarginContainer" node_paths=PackedStringArray("_customList", "_standardRulesList", "_closeMenuButton")]
-visible = false
+[node name="EntrySerializer" type="MarginContainer" node_paths=PackedStringArray("_customItemList", "_customEncountersItemList", "_standardRulesItemList", "_standardRulesEncountersItemList", "_closeMenuButton")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 script = ExtResource("1_5qa6v")
-_customList = NodePath("TabContainer/Custom/Custom")
-_standardRulesList = NodePath("TabContainer/Standard Rules/Standard Rules")
+_customItemList = NodePath("TabContainer/Custom/Custom")
+_customEncountersItemList = NodePath("TabContainer/Custom Encounters/Custom Encounters")
+_standardRulesItemList = NodePath("TabContainer/Standard Rules/Standard Rules")
+_standardRulesEncountersItemList = NodePath("TabContainer/Standard Rules Encounters/Standard Rules Encounters")
 _closeMenuButton = NodePath("Button")
-standardRulesEntriesDir = "res://Resources/Monsters/"
-_customSaveDir = "user://saves/"
+_customSavesDirectory = "user://saves/entries/"
+_customEncountersDirectory = "user://saves/encounters/"
+_standardRulesMonstersDirectory = "res://Resources/Monsters/"
+_standardRulesEncountersDirectory = "res://Resources/Encounters/"
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 2
@@ -33,7 +38,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 28
-select_mode = 1
+max_text_lines = 2
+auto_height = true
+max_columns = 2
+same_column_width = true
+icon_scale = 0.3
+
+[node name="Standard Rules Encounters" type="ScrollContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+metadata/_tab_index = 1
+
+[node name="Standard Rules Encounters" type="ItemList" parent="TabContainer/Standard Rules Encounters"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
 max_text_lines = 2
 auto_height = true
 max_columns = 2
@@ -43,7 +64,7 @@ icon_scale = 0.3
 [node name="Custom" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 1
+metadata/_tab_index = 2
 
 [node name="Custom" type="ItemList" parent="TabContainer/Custom"]
 layout_mode = 2
@@ -56,12 +77,12 @@ max_columns = 2
 same_column_width = true
 icon_scale = 0.3
 
-[node name="Groups | Encounters" type="ScrollContainer" parent="TabContainer"]
+[node name="Custom Encounters" type="ScrollContainer" parent="TabContainer"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 2
+metadata/_tab_index = 3
 
-[node name="Groups | Encounters" type="ItemList" parent="TabContainer/Groups | Encounters"]
+[node name="Custom Encounters" type="ItemList" parent="TabContainer/Custom Encounters"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

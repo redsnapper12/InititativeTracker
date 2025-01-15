@@ -1,0 +1,57 @@
+[gd_resource type="Resource" script_class="EncounterData" load_steps=9 format=3 uid="uid://digg4xmbotj5v"]
+
+[ext_resource type="Script" path="res://Resources/Classes/EntryData.cs" id="1_c7dxm"]
+[ext_resource type="Script" path="res://Resources/Classes/EncounterData.cs" id="1_xkdx5"]
+
+[sub_resource type="Resource" id="Resource_drain"]
+script = ExtResource("1_c7dxm")
+CharacterName = "Goblin Boss"
+Initiative = 0
+DexModifier = 2
+AC = 15
+HP = 15
+
+[sub_resource type="Resource" id="Resource_8lnbv"]
+script = ExtResource("1_c7dxm")
+CharacterName = "Goblin 1"
+Initiative = 0
+DexModifier = 2
+AC = 15
+HP = 8
+
+[sub_resource type="Resource" id="Resource_cbyfy"]
+script = ExtResource("1_c7dxm")
+CharacterName = "Goblin 2"
+Initiative = 0
+DexModifier = 2
+AC = 15
+HP = 6
+
+[sub_resource type="Resource" id="Resource_83kmd"]
+script = ExtResource("1_c7dxm")
+CharacterName = "Goblin 3"
+Initiative = 0
+DexModifier = 2
+AC = 15
+HP = 9
+
+[sub_resource type="Resource" id="Resource_eclt4"]
+script = ExtResource("1_c7dxm")
+CharacterName = "Goblin 4"
+Initiative = 0
+DexModifier = 2
+AC = 15
+HP = 8
+
+[sub_resource type="Resource" id="Resource_f8vy1"]
+script = ExtResource("1_c7dxm")
+CharacterName = "Goblin 5"
+Initiative = 0
+DexModifier = 2
+AC = 15
+HP = 9
+
+[resource]
+script = ExtResource("1_xkdx5")
+EncounterName = "Goblin Ambush"
+Encounter = [SubResource("Resource_drain"), SubResource("Resource_8lnbv"), SubResource("Resource_cbyfy"), SubResource("Resource_83kmd"), SubResource("Resource_eclt4"), SubResource("Resource_f8vy1")]

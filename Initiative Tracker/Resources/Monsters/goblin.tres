@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EntryData" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="EntryData" load_steps=2 format=3 uid="uid://drou2i25yjwpc"]
 
 [ext_resource type="Script" path="res://Resources/Classes/EntryData.cs" id="1_4217s"]
 

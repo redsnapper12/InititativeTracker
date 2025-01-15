@@ -1,27 +1,41 @@
 using System.Collections.Generic;
+using System.IO;
 using Godot;
 
 public partial class EntrySerializer : Control
 {
-	[Export] private ItemList _customList = null;
-	[Export] private ItemList _standardRulesList = null;
-	[Export] private Button _closeMenuButton = null;
-	[Export] private string standardRulesEntriesDir;
-	[Export] private string _customSaveDir;
+	[ExportGroup("Control Nodes")]
 	[Export] private InitiativeTracker _tracker;
+	[Export] private ItemList _customItemList = null;
+	[Export] private ItemList _customEncountersItemList = null;
+	[Export] private ItemList _standardRulesItemList = null;
+	[Export] private ItemList _standardRulesEncountersItemList = null;
+	[Export] private Button _closeMenuButton = null;
 
-	private List<string> _standardRulesPaths = new();
-	private List<string> _customPaths = new();
+	[ExportGroup("Paths")]
+	[Export] private string _customSavesDirectory;
+	[Export] private string _customEncountersDirectory;
+	[Export] private string _standardRulesMonstersDirectory;
+	[Export] private string _standardRulesEncountersDirectory;
+	
+
+	private List<string> _customSavesPaths = new();
+	private List<string> _customEncountersPaths = new();
+	private List<string> _standardRulesMonstersPaths = new();
+	private List<string> _standardRulesEncountersPaths = new();
+	
 
 	public override void _Ready()
 	{
-		if(!DirAccess.DirExistsAbsolute(_customSaveDir)) 
-		{
-			DirAccess.MakeDirAbsolute(_customSaveDir);
-		}
+		if(!DirAccess.DirExistsAbsolute(_customSavesDirectory)) DirAccess.MakeDirAbsolute(_customSavesDirectory);
+		if(!DirAccess.DirExistsAbsolute(_customEncountersDirectory)) DirAccess.MakeDirAbsolute(_customEncountersDirectory);
 
-		_standardRulesList.ItemActivated += (idx) => OnstandardRulesItemActivated((int)idx);
-		_customList.ItemActivated += (idx) => OnCustomItemActivated((int)idx);
+		_customItemList.ItemActivated += (idx) => OnCustomItemActivated((int)idx);
+		_customEncountersItemList.ItemActivated += (idx) => OnCustomEncounterItemActivated((int)idx);
+
+		_standardRulesItemList.ItemActivated += (idx) => OnStandardRulesItemActivated((int)idx);
+		_standardRulesEncountersItemList.ItemActivated += (idx) => OnStandardRulesEncounterItemActivated((int)idx);
+		
 		_closeMenuButton.Pressed += () => OnCloseMenuButtonPressed();
 
 		ConstructItemLists();
@@ -45,24 +59,33 @@ public partial class EntrySerializer : Control
 	{
 		if(!ResourceLoader.Exists(path)) return;
 
-		EntryData data = ResourceLoader.Load<EntryData>(path);
+		EntryData entryData = ResourceLoader.Load<EntryData>(path);
 
-		if(data != null)
+		if(entryData != null)
 		{
 			InitiativeEntry newEntry = _tracker.InititativeEntryScene.Instantiate<InitiativeEntry>();
 			_tracker.AddEntryToTracker(newEntry);
-			newEntry.CharacterName = data.CharacterName;
-			newEntry.Initiative = data.Initiative;
-			newEntry.DexModifier = data.DexModifier;
-			newEntry.AC = data.AC;
-			newEntry.HP = data.HP;
+			FillEntry(newEntry, entryData);
 		}
 	}
 
-	/// <summary>
-	/// Saves an entry to the user saves folder
-	/// </summary>
-	/// <param name="entry"></param>
+	private void LoadEncounter(string path) 
+	{
+		if(!ResourceLoader.Exists(path)) return;
+
+		EncounterData encounterData = ResourceLoader.Load<EncounterData>(path);
+
+		if(encounterData != null)
+		{
+			foreach (EntryData entryData in encounterData.Encounter)
+			{
+				InitiativeEntry newEntry = _tracker.InititativeEntryScene.Instantiate<InitiativeEntry>();
+				_tracker.AddEntryToTracker(newEntry);
+				FillEntry(newEntry, entryData);
+			}
+		}
+	}
+
 	private void SaveEntry(InitiativeEntry entry) 
 	{
 		
@@ -76,11 +99,24 @@ public partial class EntrySerializer : Control
 
 	private void ConstructItemLists() 
 	{
-		_customPaths = GetEntryPathsFromDir(_customSaveDir);
-		_standardRulesPaths = GetEntryPathsFromDir(standardRulesEntriesDir);
+		_customSavesPaths = GetEntryPathsFromDir(_customSavesDirectory);
+		_customEncountersPaths = GetEntryPathsFromDir(_customEncountersDirectory);
+		_standardRulesMonstersPaths = GetEntryPathsFromDir(_standardRulesMonstersDirectory);
+		_standardRulesEncountersPaths = GetEntryPathsFromDir(_standardRulesEncountersDirectory);
 		
-		FillItemList(_customList, _customPaths);
-		FillItemList(_standardRulesList, _standardRulesPaths);
+		FillEntryItemList(_customItemList, _customSavesPaths);
+		FillEncounterItemList(_customEncountersItemList, _customEncountersPaths);
+		FillEntryItemList(_standardRulesItemList, _standardRulesMonstersPaths);
+		FillEncounterItemList(_standardRulesEncountersItemList, _standardRulesEncountersPaths);
+	}
+
+	private void FillEntry(InitiativeEntry entry, EntryData data) 
+	{
+		entry.CharacterName = data.CharacterName;
+		entry.Initiative = data.Initiative;
+		entry.DexModifier = data.DexModifier;
+		entry.AC = data.AC;
+		entry.HP = data.HP;
 	}
 
 	private List<string> GetEntryPathsFromDir(string path) 
@@ -108,7 +144,7 @@ public partial class EntrySerializer : Control
 		}
 	}
 
-	private void FillItemList(ItemList list, List<string> entry_paths) 
+	private void FillEntryItemList(ItemList list, List<string> entry_paths) 
 	{
 		foreach (string path in entry_paths)
 		{
@@ -125,15 +161,44 @@ public partial class EntrySerializer : Control
 		}
 	}
 
-	private void OnstandardRulesItemActivated(int index) 
+	private void FillEncounterItemList(ItemList list, List<string> entry_paths) 
 	{
-		LoadEntry(_standardRulesPaths[index]);
-		Hide();
+		foreach (string path in entry_paths)
+		{
+			EncounterData data = ResourceLoader.Load<EncounterData>(path);
+
+			if(data != null) 
+			{
+				list.AddItem(data.EncounterName);
+			}
+			else 
+			{
+				GD.PrintErr("Could not find entry at: " + path);
+			}
+		}
 	}
 
 	private void OnCustomItemActivated(int index) 
 	{
-		LoadEntry(_customPaths[index]);
+		LoadEntry(_customSavesPaths[index]);
+		Hide();
+	}
+
+	private void OnCustomEncounterItemActivated(int index) 
+	{
+		LoadEncounter(_customEncountersPaths[index]);
+		Hide();
+	}
+
+	private void OnStandardRulesItemActivated(int index) 
+	{
+		LoadEntry(_standardRulesMonstersPaths[index]);
+		Hide();
+	}
+
+	private void OnStandardRulesEncounterItemActivated(int index) 
+	{
+		LoadEncounter(_standardRulesEncountersPaths[index]);
 		Hide();
 	}
 
