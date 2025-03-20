@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Ancient Copper Dragon</name>
+    <initiative>0</initiative>
+    <dexModifier>1</dexModifier>
+    <armorClass>21</armorClass>
+    <healthPoints>350</healthPoints>
+</monster>

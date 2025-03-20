@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Gargoyle</name>
+    <initiative>0</initiative>
+    <dexModifier>0</dexModifier>
+    <armorClass>15</armorClass>
+    <healthPoints>52</healthPoints>
+</monster>

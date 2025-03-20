@@ -15,6 +15,7 @@ dest_files=["res://.godot/imported/Texturina_14pt-Medium.ttf-62fd636db6c1043c7e0
 Rendering=null
 antialiasing=1
 generate_mipmaps=false
+disable_embedded_bitmaps=true
 multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48

@@ -9,6 +9,23 @@ public partial class CombatOrderManager
     private int _activeEntryIndex = -1;
 
     public int Round { get => _round; }
+    public InitiativeEntry ActiveEntry
+    { 
+        get => _activeEntry; 
+        set 
+        {
+            if(_activeEntry != null)
+            {
+                _activeEntry.IsActive = false;
+                if(_activeEntry.PanelContainer.HasThemeStyleboxOverride("panel")) _activeEntry.PanelContainer.RemoveThemeStyleboxOverride("panel");
+            } 
+            _activeEntry = value;
+            if(_activeEntry != null)
+            {  
+                if(!_activeEntry.PanelContainer.HasThemeStyleboxOverride("panel")) _activeEntry.PanelContainer.AddThemeStyleboxOverride("panel", _activeEntry.ActivePanelStyleBox);
+            } 
+        }
+    }
 
     public CombatOrderManager()
     {
@@ -21,8 +38,7 @@ public partial class CombatOrderManager
         {
             _combatOrder.Add(entry);
             _activeEntryIndex = 0;
-            _activeEntry = _combatOrder[_activeEntryIndex];
-            UpdateActiveEntryVisuals();
+            ActiveEntry = _combatOrder[_activeEntryIndex];
 
             return;
         }
@@ -42,7 +58,8 @@ public partial class CombatOrderManager
 		if(!_combatOrder.Contains(entry)) return;
 
         int removedIndex = _combatOrder.IndexOf(entry);
-        bool removingActiveEntry = _activeEntry == entry;
+        bool removingActiveEntry = ActiveEntry == entry;
+        
         _combatOrder.Remove(entry);
 
 
@@ -51,7 +68,7 @@ public partial class CombatOrderManager
         {
             // Stop combat
             _activeEntryIndex = -1;
-            _activeEntry = null;
+            ActiveEntry = null;
             _round = 1;
             return;
         }
@@ -66,8 +83,7 @@ public partial class CombatOrderManager
                 _round++;
             }
 
-            _activeEntry = _combatOrder[_activeEntryIndex];
-            UpdateActiveEntryVisuals();
+            ActiveEntry = _combatOrder[_activeEntryIndex];
             return;
         }
 
@@ -87,19 +103,16 @@ public partial class CombatOrderManager
             _activeEntryIndex = _combatOrder.Count - 1;
         }
 
-        _activeEntry = _combatOrder[_activeEntryIndex];
-        UpdateActiveEntryVisuals();
+        ActiveEntry = _combatOrder[_activeEntryIndex];
 	}
 
     public void SortCombatOrder()
     {
         if(_combatOrder.Count > 0) 
         {
-            ResetActiveEntryVisuals();
             _combatOrder = _combatOrder.OrderByDescending(entry => entry.Initiative).ToList();
             _activeEntryIndex = 0;
-            _activeEntry = _combatOrder[_activeEntryIndex];
-            UpdateActiveEntryVisuals();
+            ActiveEntry = _combatOrder[_activeEntryIndex];
         }
     }
 
@@ -112,14 +125,12 @@ public partial class CombatOrderManager
     public void ClearCombatOrder() 
     {
         _combatOrder.Clear();
+        ActiveEntry = null;
         _round = 1;
     }
 
     private void IterateActiveEntry() 
     {
-        // Update visuals for old entry
-        ResetActiveEntryVisuals();
-
         if (_combatOrder.Count > 0)
         {   
             // Use modulo to wrap
@@ -129,29 +140,12 @@ public partial class CombatOrderManager
             if(nextIdx == 0) _round++;
 
             _activeEntryIndex = nextIdx;
-            _activeEntry = _combatOrder[_activeEntryIndex];
-            UpdateActiveEntryVisuals();
+            ActiveEntry = _combatOrder[_activeEntryIndex];
         }
         else
         {
             _activeEntryIndex = -1;
-            _activeEntry = null;
-        }
-    }
-
-    private void UpdateActiveEntryVisuals()
-    {
-        if (_activeEntryIndex >= 0 && _activeEntryIndex < _combatOrder.Count)
-        {
-            _activeEntry.Modulate = new(0.9f, 0.9f, 1.0f, 0.75f);
-        }
-    }
-
-    private void ResetActiveEntryVisuals()
-    {
-        if (_activeEntryIndex >= 0 && _activeEntryIndex < _combatOrder.Count)
-        {
-            _activeEntry.Modulate = new(1.0f, 1.0f, 1.0f, 1.0f);
+            ActiveEntry = null;
         }
     }
 }

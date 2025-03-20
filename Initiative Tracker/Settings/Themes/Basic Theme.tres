@@ -1,5 +1,6 @@
-[gd_resource type="Theme" load_steps=17 format=3 uid="uid://dp0ku4lrfchxi"]
+[gd_resource type="Theme" load_steps=18 format=3 uid="uid://dp0ku4lrfchxi"]
 
+[ext_resource type="FontFile" uid="uid://dq5oygjnlrxen" path="res://Settings/Fonts/Geist/static/Geist-SemiBold.ttf" id="1_8od2o"]
 [ext_resource type="FontFile" uid="uid://ccyo85d5kf8ta" path="res://Settings/Fonts/Geist/static/Geist-Regular.ttf" id="1_ce8nj"]
 [ext_resource type="Texture2D" uid="uid://c60efsq2ws54y" path="res://Textures/Google Icons/keyboard_arrow_down_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="1_lsaeb"]
 
@@ -86,10 +87,10 @@ shadow_size = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e210s"]
 bg_color = Color(1, 1, 1, 0.101961)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 expand_margin_left = 10.0
 expand_margin_top = 10.0
 expand_margin_right = 10.0
@@ -111,13 +112,15 @@ vertical = true
 
 [resource]
 default_font = ExtResource("1_ce8nj")
-default_font_size = 18
+default_font_size = 20
+AcceptDialog/constants/buttons_min_width = 100
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_focus_color = Color(1, 1, 1, 1)
 Button/colors/font_hover_color = Color(1, 1, 1, 1)
 Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 Button/colors/font_pressed_color = Color(1, 1, 1, 1)
 Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("1_8od2o")
 Button/styles/disabled = SubResource("StyleBoxFlat_idlpq")
 Button/styles/focus = SubResource("StyleBoxEmpty_w0cyj")
 Button/styles/hover = SubResource("StyleBoxFlat_wwpfa")

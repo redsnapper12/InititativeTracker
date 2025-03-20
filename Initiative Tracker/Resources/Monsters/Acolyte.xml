@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Acolyte</name>
+    <initiative>0</initiative>
+    <dexModifier>0</dexModifier>
+    <armorClass>10</armorClass>
+    <healthPoints>9</healthPoints>
+</monster>

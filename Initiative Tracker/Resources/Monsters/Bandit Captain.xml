@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Bandit Captain</name>
+    <initiative>0</initiative>
+    <dexModifier>3</dexModifier>
+    <armorClass>15</armorClass>
+    <healthPoints>65</healthPoints>
+</monster>

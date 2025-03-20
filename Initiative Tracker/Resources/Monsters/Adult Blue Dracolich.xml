@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Adult Blue Dracolich</name>
+    <initiative>0</initiative>
+    <dexModifier>0</dexModifier>
+    <armorClass>19</armorClass>
+    <healthPoints>225</healthPoints>
+</monster>

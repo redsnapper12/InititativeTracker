@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Couatl</name>
+    <initiative>0</initiative>
+    <dexModifier>5</dexModifier>
+    <armorClass>19</armorClass>
+    <healthPoints>97</healthPoints>
+</monster>

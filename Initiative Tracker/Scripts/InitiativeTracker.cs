@@ -6,8 +6,14 @@ public partial class InitiativeTracker : Control
 {
 	[Export] private EntrySerializer _entrySerializer;
 	[Export] private PackedScene _initiativeEntryScene;
-	[Export] private GridContainer _gridContainer;
+	[Export] private VBoxContainer _vBoxContainer;
 	[Export] private Label _roundCounterLabel;
+
+	[ExportCategory("Detail Block")]
+	[Export] private Label _activeName;
+	[Export] private Label _activeHP;
+	[Export] private Label _activeAC;
+	[Export] private Label _activeInitiative;
 
 	[ExportCategory("Buttons")]
 	[Export] private Button _addEntryButton;
@@ -30,7 +36,7 @@ public partial class InitiativeTracker : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		InitButtonSignals();
+		InitEvents();
 	}
 
 	// Public Helpers
@@ -39,6 +45,7 @@ public partial class InitiativeTracker : Control
 		UpdateRoundCounter(_combatOrderManager.Round);
 
 		_combatOrderManager.RemoveEntryFromCombat(entry);
+		UpdateDetailBlock(_combatOrderManager.ActiveEntry);
 		_entries.Remove(entry);
 		entry.QueueFree();
 	}
@@ -46,8 +53,9 @@ public partial class InitiativeTracker : Control
 	public void AddEntryToTracker(InitiativeEntry entry) 
 	{
 		entry.Tracker = this;
-		_gridContainer.AddChild(entry);
+		_vBoxContainer.AddChild(entry);
 		_combatOrderManager.AddEntryToCombat(entry);
+		UpdateDetailBlock(_combatOrderManager.ActiveEntry);
 		_entries.Add(entry);
 	}
 
@@ -56,10 +64,33 @@ public partial class InitiativeTracker : Control
 		_entries = _entries.OrderByDescending(entry => entry.Initiative).ToList();
 		for (int i = 0; i < _entries.Count; i++)
 		{
-			_gridContainer.MoveChild(_entries[i], i);
+			_vBoxContainer.MoveChild(_entries[i], i);
 		}
 
 		_combatOrderManager.SortCombatOrder();
+		UpdateDetailBlock(_combatOrderManager.ActiveEntry);
+	}
+
+	public void UpdateDetailBlock(InitiativeEntry activeEntry) 
+	{
+		if(activeEntry == null)
+		{
+			ResetDetailBlock();
+			return;
+		}
+
+		_activeName.Text = activeEntry.CharacterName;
+		_activeHP.Text = activeEntry.HP.ToString();
+		_activeAC.Text = activeEntry.AC.ToString();
+		_activeInitiative.Text = activeEntry.Initiative.ToString();
+	}
+
+	public void ResetDetailBlock() 
+	{
+		_activeName.Text = "No Combatant";
+		_activeHP.Text = "N/A";
+		_activeAC.Text = "N/A";
+		_activeInitiative.Text = "N/A";
 	}
 
 	// Button events
@@ -73,9 +104,15 @@ public partial class InitiativeTracker : Control
 
 	private void SaveEvent() 
 	{
-		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		//_entrySerializer.SaveEntries(_entries);
-		// TODO
+		if(_entries.Count > 0)
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+			_entrySerializer.PromptEncounterSave();
+		}
+		else 
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIDelete);
+		}
 	}
 
 	private void LoadEvent() 
@@ -97,6 +134,7 @@ public partial class InitiativeTracker : Control
 
 			_entries.Clear();
 			_combatOrderManager.ClearCombatOrder();
+			ResetDetailBlock();
 			UpdateRoundCounter(_combatOrderManager.Round);
 		}
 		else
@@ -135,6 +173,7 @@ public partial class InitiativeTracker : Control
 			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
 
 			_combatOrderManager.NextTurn();
+			UpdateDetailBlock(_combatOrderManager.ActiveEntry);
 			UpdateRoundCounter(_combatOrderManager.Round);
 		}
 		else 
@@ -149,7 +188,7 @@ public partial class InitiativeTracker : Control
 		_roundCounterLabel.Text = "Round " + round;
 	}
 
-	private void InitButtonSignals() 
+	private void InitEvents() 
 	{
 		_addEntryButton.Pressed += () => AddEvent();
 		_rollAllButton.Pressed += () => RollEvent();

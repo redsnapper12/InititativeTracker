@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+	<name>Aboleth</name>
+	<initiative>0</initiative>
+	<dexModifier>-1</dexModifier>
+	<armorClass>17</armorClass>
+	<healthPoints>135</healthPoints>
+</monster>

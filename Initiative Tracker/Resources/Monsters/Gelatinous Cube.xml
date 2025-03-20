@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Gelatinous Cube</name>
+    <initiative>0</initiative>
+    <dexModifier>-4</dexModifier>
+    <armorClass>6</armorClass>
+    <healthPoints>84</healthPoints>
+</monster>

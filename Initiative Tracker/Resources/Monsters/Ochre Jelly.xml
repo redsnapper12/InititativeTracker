@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Ochre Jelly</name>
+    <initiative>0</initiative>
+    <dexModifier>-2</dexModifier>
+    <armorClass>8</armorClass>
+    <healthPoints>45</healthPoints>
+</monster>

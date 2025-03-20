@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Solar</name>
+    <initiative>0</initiative>
+    <dexModifier>6</dexModifier>
+    <armorClass>21</armorClass>
+    <healthPoints>243</healthPoints>
+</monster>

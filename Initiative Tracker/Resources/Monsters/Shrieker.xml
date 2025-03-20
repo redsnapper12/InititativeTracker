@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Shrieker</name>
+    <initiative>0</initiative>
+    <dexModifier>-5</dexModifier>
+    <armorClass>5</armorClass>
+    <healthPoints>13</healthPoints>
+</monster>

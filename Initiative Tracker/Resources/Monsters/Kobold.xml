@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Kobold</name>
+    <initiative>0</initiative>
+    <dexModifier>2</dexModifier>
+    <armorClass>12</armorClass>
+    <healthPoints>5</healthPoints>
+</monster>

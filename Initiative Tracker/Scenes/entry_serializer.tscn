@@ -2,71 +2,101 @@
 
 [ext_resource type="Script" path="res://Scripts/Helper Classes/EntrySerializer.cs" id="1_5qa6v"]
 
-[node name="EntrySerializer" type="MarginContainer" node_paths=PackedStringArray("_customItemList", "_customEncountersItemList", "_standardRulesItemList", "_standardRulesEncountersItemList", "_closeMenuButton")]
+[node name="Entry Serializer" type="Control" node_paths=PackedStringArray("_loadMenu", "_customEntriesItemList", "_customEncountersItemList", "_standardRulesMonstersItemList", "_builtInEncountersItemList", "_closeMenuButton", "_encounterSaveDialog", "_encounterNameEdit", "_confirmEncounterSaveButton", "_cancelEncounterSaveButton", "_entrySaveDialog")]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_5qa6v")
+_loadMenu = NodePath("Load Menu")
+_customEntriesItemList = NodePath("Load Menu/Nodes/TabContainer/Custom Entries/Custom Entries")
+_customEncountersItemList = NodePath("Load Menu/Nodes/TabContainer/Custom Encounters/Custom Encounters")
+_standardRulesMonstersItemList = NodePath("Load Menu/Nodes/TabContainer/Standard Rules Monsters/Standard Rules")
+_builtInEncountersItemList = NodePath("Load Menu/Nodes/TabContainer/Built-In Encounters/Built-In Encounters")
+_closeMenuButton = NodePath("Load Menu/Nodes/MarginContainer/Button")
+_encounterSaveDialog = NodePath("Save Dialog")
+_encounterNameEdit = NodePath("Save Dialog/MarginContainer/HBoxContainer/LineEdit")
+_confirmEncounterSaveButton = NodePath("Save Dialog/MarginContainer/HBoxContainer/Save")
+_cancelEncounterSaveButton = NodePath("Save Dialog/MarginContainer/HBoxContainer/Cancel")
+_entrySaveDialog = NodePath("ConfirmationDialog")
+_customEntriesDirectory = "user://saves/entries/"
+_customEncountersDirectory = "user://saves/encounters/"
+_standardRulesMonstersDirectory = "res://Resources/Monsters/"
+_builtInEncountersDirectory = "res://Resources/Encounters/"
+metadata/_edit_use_anchors_ = true
+
+[node name="Load Menu" type="Control" parent="."]
+visible = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-script = ExtResource("1_5qa6v")
-_customItemList = NodePath("TabContainer/Custom/Custom")
-_customEncountersItemList = NodePath("TabContainer/Custom Encounters/Custom Encounters")
-_standardRulesItemList = NodePath("TabContainer/Standard Rules/Standard Rules")
-_standardRulesEncountersItemList = NodePath("TabContainer/Standard Rules Encounters/Standard Rules Encounters")
-_closeMenuButton = NodePath("Button")
-_customSavesDirectory = "user://saves/entries/"
-_customEncountersDirectory = "user://saves/encounters/"
-_standardRulesMonstersDirectory = "res://Resources/Monsters/"
-_standardRulesEncountersDirectory = "res://Resources/Encounters/"
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="ColorRect" type="ColorRect" parent="Load Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.211765, 0.211765, 0.211765, 0.901961)
+
+[node name="Nodes" type="VBoxContainer" parent="Load Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="Load Menu/Nodes"]
 layout_mode = 2
-current_tab = 0
+size_flags_vertical = 3
+current_tab = 3
 
-[node name="Standard Rules" type="ScrollContainer" parent="TabContainer"]
+[node name="Standard Rules Monsters" type="ScrollContainer" parent="Load Menu/Nodes/TabContainer"]
+visible = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 0
 
-[node name="Standard Rules" type="ItemList" parent="TabContainer/Standard Rules"]
+[node name="Standard Rules" type="ItemList" parent="Load Menu/Nodes/TabContainer/Standard Rules Monsters"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 28
 max_text_lines = 2
 auto_height = true
-max_columns = 2
+max_columns = 5
 same_column_width = true
 icon_scale = 0.3
 
-[node name="Standard Rules Encounters" type="ScrollContainer" parent="TabContainer"]
+[node name="Built-In Encounters" type="ScrollContainer" parent="Load Menu/Nodes/TabContainer"]
 visible = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 metadata/_tab_index = 1
 
-[node name="Standard Rules Encounters" type="ItemList" parent="TabContainer/Standard Rules Encounters"]
+[node name="Built-In Encounters" type="ItemList" parent="Load Menu/Nodes/TabContainer/Built-In Encounters"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 28
 max_text_lines = 2
 auto_height = true
-max_columns = 2
+max_columns = 5
 same_column_width = true
 icon_scale = 0.3
 
-[node name="Custom" type="ScrollContainer" parent="TabContainer"]
+[node name="Custom Entries" type="ScrollContainer" parent="Load Menu/Nodes/TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Custom" type="ItemList" parent="TabContainer/Custom"]
+[node name="Custom Entries" type="ItemList" parent="Load Menu/Nodes/TabContainer/Custom Entries"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -77,12 +107,11 @@ max_columns = 2
 same_column_width = true
 icon_scale = 0.3
 
-[node name="Custom Encounters" type="ScrollContainer" parent="TabContainer"]
-visible = false
+[node name="Custom Encounters" type="ScrollContainer" parent="Load Menu/Nodes/TabContainer"]
 layout_mode = 2
 metadata/_tab_index = 3
 
-[node name="Custom Encounters" type="ItemList" parent="TabContainer/Custom Encounters"]
+[node name="Custom Encounters" type="ItemList" parent="Load Menu/Nodes/TabContainer/Custom Encounters"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -93,8 +122,69 @@ max_columns = 2
 same_column_width = true
 icon_scale = 0.3
 
-[node name="Button" type="Button" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="Load Menu/Nodes"]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-text = "  Close  "
+size_flags_vertical = 4
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Button" type="Button" parent="Load Menu/Nodes/MarginContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Cancel"
+
+[node name="Save Dialog" type="Window" parent="."]
+title = "Enter Encounter Name"
+initial_position = 2
+size = Vector2i(500, 100)
+visible = false
+
+[node name="MarginContainer" type="MarginContainer" parent="Save Dialog"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -18.5
+offset_bottom = 18.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Save Dialog/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LineEdit" type="LineEdit" parent="Save Dialog/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "Example Name..."
+
+[node name="Save" type="Button" parent="Save Dialog/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Save"
+
+[node name="Cancel" type="Button" parent="Save Dialog/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Cancel"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "Save Entry?"
+initial_position = 1
+size = Vector2i(300, 86)
+unresizable = true
+popup_window = true
+ok_button_text = "Save"
+dialog_text = "Save this Entry?"

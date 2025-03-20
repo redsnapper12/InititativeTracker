@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Ancient Brass Dragon</name>
+    <initiative>0</initiative>
+    <dexModifier>0</dexModifier>
+    <armorClass>20</armorClass>
+    <healthPoints>297</healthPoints>
+</monster>

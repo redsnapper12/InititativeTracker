@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Hezrou</name>
+    <initiative>0</initiative>
+    <dexModifier>3</dexModifier>
+    <armorClass>16</armorClass>
+    <healthPoints>136</healthPoints>
+</monster>

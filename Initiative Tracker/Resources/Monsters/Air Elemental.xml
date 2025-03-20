@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Air Elemental</name>
+    <initiative>0</initiative>
+    <dexModifier>5</dexModifier>
+    <armorClass>15</armorClass>
+    <healthPoints>90</healthPoints>
+</monster>

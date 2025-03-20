@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<encounter>
+    <monster>
+        <name>Goblin 1</name>
+        <initiative>0</initiative>
+        <dexModifier>2</dexModifier>
+        <armorClass>15</armorClass>
+        <healthPoints>5</healthPoints>
+    </monster>
+
+    <monster>
+        <name>Goblin 2</name>
+        <initiative>0</initiative>
+        <dexModifier>2</dexModifier>
+        <armorClass>15</armorClass>
+        <healthPoints>7</healthPoints>
+    </monster>
+
+    <monster>
+        <name>Goblin 3</name>
+        <initiative>0</initiative>
+        <dexModifier>2</dexModifier>
+        <armorClass>15</armorClass>
+        <healthPoints>9</healthPoints>
+    </monster>
+    
+    <monster>
+        <name>Goblin Leader</name>
+        <initiative>0</initiative>
+        <dexModifier>4</dexModifier>
+        <armorClass>15</armorClass>
+        <healthPoints>15</healthPoints>
+    </monster>
+</encounter>

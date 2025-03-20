@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Sprite</name>
+    <initiative>0</initiative>
+    <dexModifier>4</dexModifier>
+    <armorClass>15</armorClass>
+    <healthPoints>2</healthPoints>
+</monster>

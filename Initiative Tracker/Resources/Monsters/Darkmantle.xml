@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Darkmantle</name>
+    <initiative>0</initiative>
+    <dexModifier>1</dexModifier>
+    <armorClass>11</armorClass>
+    <healthPoints>22</healthPoints>
+</monster>

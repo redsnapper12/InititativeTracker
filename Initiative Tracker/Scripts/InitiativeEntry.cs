@@ -3,14 +3,26 @@ using System;
 
 public partial class InitiativeEntry : Control
 {	
+	[ExportGroup("Info")]
+	[Export] private Label _initiativeLabel;
 	[Export] private LineEdit _nameEdit;
-	[Export] private SpinBox _initiativeSpinBox;
 	[Export] private SpinBox _dexModifierSpinBox;
 	[Export] private SpinBox _ACSpinBox;
 	[Export] private SpinBox _HPSpinBox;
-	[Export] private MenuButton _menuButton;
+	
+	[ExportGroup("Option Buttons")]
+	[Export] private TextureButton _rollInitiativeButton;
+	[Export] private TextureButton _saveButton;
+	[Export] private TextureButton _duplicateButton;
+	[Export] private TextureButton _deleteButton;
+	
+	[ExportGroup("Visuals")]
+	[Export] private PanelContainer _panelContainer;
+	[Export] private StyleBoxFlat _activePanelStyleBox;
+
 	private InitiativeTracker _tracker;
 	private PopupMenu _popupMenu = new();
+	private bool _isActive = false;
 	private string _characterName = "";
 	private int _initiative = 0;
 	private int _dexModifier = 0;
@@ -18,6 +30,12 @@ public partial class InitiativeEntry : Control
 	private int _HP = 0;
 
 	public InitiativeTracker Tracker { get => _tracker; set => _tracker = value; }
+
+	public PanelContainer PanelContainer { get => _panelContainer; }
+
+	public StyleBoxFlat ActivePanelStyleBox { get => _activePanelStyleBox; }
+
+	public bool IsActive { get => _isActive; set => _isActive = value; }
 
 	public string CharacterName 
 	{
@@ -29,23 +47,56 @@ public partial class InitiativeEntry : Control
 		}
 	}
 
-	public int Initiative { get => _initiative; set => _initiativeSpinBox.Value = value; }
-	public int DexModifier { get => _dexModifier; set =>_dexModifierSpinBox.Value = value; }
-	public int AC { get => _AC; set =>_ACSpinBox.Value = value;	}
-	public int HP { get => _HP; set => _HPSpinBox.Value = value;}
-
-	enum Actions 
-	{
-		Roll,
-		Save,
-		Duplicate,
-		Delete
+	public int Initiative 
+	{ 
+		get => _initiative;
+		set 
+		{
+			_initiativeLabel.Text = value.ToString();
+			_initiative = value;
+		}
 	}
+
+	public int DexModifier 
+	{
+		get => _dexModifier;
+		set
+		{
+			_dexModifierSpinBox.Value = value;
+			_dexModifierSpinBox.Prefix =  value < 0 ? "" : "+";
+			_dexModifier = value;
+		} 
+	}
+
+	public int AC
+	{
+		get => _AC;
+		set 
+		{
+			_ACSpinBox.Value = value;
+			_AC = value;	
+		}
+	}  
+	
+	public int HP 
+	{
+		get => _HP; 
+		set
+		{
+			_HPSpinBox.Value = value;
+			_HP = value;
+		}
+		
+	}
+
 
 	public override void _Ready()
     {
-		_popupMenu = _menuButton.GetPopup();
-		ConstructOptionsPopup();
+		_characterName = _nameEdit.Text;
+
+		_ACSpinBox.GetLineEdit().ContextMenuEnabled = false;
+		_HPSpinBox.GetLineEdit().ContextMenuEnabled = false;
+		_dexModifierSpinBox.GetLineEdit().ContextMenuEnabled = false;
 
 		InitEvents();
     }
@@ -56,69 +107,15 @@ public partial class InitiativeEntry : Control
 		int roll = GD.RandRange(1, 20) + _dexModifier;
 		
 		_initiative = roll;
-		_initiativeSpinBox.Value = roll;
+		_initiativeLabel.Text = roll.ToString();
 	}
-
-
-	// Private Helpers
-	private void ConstructOptionsPopup() 
-	{
-		Actions[] actions = (Actions[])Enum.GetValues(typeof(Actions));
-
-        for (int i = 0; i < actions.Length; i++)
-		{
-			_popupMenu.AddItem(actions[i].ToString(), i);
-		}
-	}
-
-	private void HandlePopupMenuInput(int id)
-	{
-		switch (id)
-		{
-			case (int)Actions.Delete:
-				DeleteEvent();
-				break;
-			case (int)Actions.Roll:
-				RollEvent();
-				break;
-			case (int)Actions.Save:
-				SaveEvent();
-				break;
-			case (int)Actions.Duplicate:
-				DuplicateEvent();
-				break;
-			default:
-				GD.PrintErr("Popup menu recieved an invalid ID: " + id);
-				break;
-		};
-	}
-
-	private void InitEvents() 
-	{
-		// Line edit
-		_nameEdit.TextChanged += (text) => _characterName = text;
-
-		// Buttons
-		_menuButton.Pressed += () => AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		_popupMenu.IdPressed += (id) => HandlePopupMenuInput((int)id);
-
-		// Spin Boxes
-		_initiativeSpinBox.ValueChanged += (value) => _initiative = (int)value;
-		_HPSpinBox.ValueChanged += (value) => _HP = (int)value;
-		_ACSpinBox.ValueChanged += (value) => _AC = (int)value;
-		_dexModifierSpinBox.ValueChanged += (value) => 
-		{
-			_dexModifier = (int)value;
-			_dexModifierSpinBox.Prefix =  value < 0 ? "" : "+";
-		};
-	}
-
 
 	// Button events
 	private void RollEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIRoll);
 		RollInitiative();
+		if (_isActive) _tracker.UpdateDetailBlock(this);
 	}
 
 	private void DeleteEvent() 
@@ -144,14 +141,40 @@ public partial class InitiativeEntry : Control
 	private void SaveEvent() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		//EntrySerializer.SaveEntry(this);
-		// TODO
+		_tracker.EntrySerializer.PromptEntrySave(this);
 	}
 
-	private void LoadEvent() 
+	private void InitEvents() 
 	{
-		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
-		//EntrySerializer.LoadEntry();
-		// TODO
+		_rollInitiativeButton.Pressed += () => RollEvent();
+		_saveButton.Pressed += () => SaveEvent();
+		_duplicateButton.Pressed += () => DuplicateEvent();
+		_deleteButton.Pressed += () => DeleteEvent();
+
+		// Details
+		_nameEdit.TextChanged += (text) => 
+		{
+			_characterName = text;
+			if (_isActive) _tracker.UpdateDetailBlock(this);
+		};
+
+		_HPSpinBox.ValueChanged += (value) => 
+		{
+			_HP = (int)value;
+			if (_isActive) _tracker.UpdateDetailBlock(this);
+		};
+
+		_ACSpinBox.ValueChanged += (value) => 
+		{
+			_AC = (int)value;
+			if (_isActive) _tracker.UpdateDetailBlock(this);
+		};
+
+		_dexModifierSpinBox.ValueChanged += (value) => 
+		{
+			_dexModifier = (int)value;
+			_dexModifierSpinBox.Prefix =  value < 0 ? "" : "+";
+			if (_isActive) _tracker.UpdateDetailBlock(this);
+		};
 	}
 }

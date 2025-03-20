@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster>
+    <name>Blink Dog</name>
+    <initiative>0</initiative>
+    <dexModifier>3</dexModifier>
+    <armorClass>13</armorClass>
+    <healthPoints>22</healthPoints>
+</monster>
