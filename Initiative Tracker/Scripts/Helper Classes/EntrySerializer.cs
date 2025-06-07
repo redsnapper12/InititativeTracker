@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,11 +11,14 @@ public partial class EntrySerializer : Control
 
 	[ExportGroup("Load Menu")]
 	[Export] private Control _loadMenu;
-	[Export] private ItemList _customEntriesItemList = null;
-	[Export] private ItemList _customEncountersItemList = null;
-	[Export] private ItemList _standardRulesMonstersItemList = null;
-	[Export] private ItemList _builtInEncountersItemList = null;
+	[Export] private TabContainer _tabContainer;
+	[Export] private CustomItemList _customEntriesItemList = null;
+	[Export] private CustomItemList _customEncountersItemList = null;
+	[Export] private CustomItemList _standardRulesMonstersItemList = null;
+	[Export] private CustomItemList _standardEncountersItemList = null;
 	[Export] private Button _closeMenuButton = null;
+	[Export] private Button _loadSelectedButton = null;
+	[Export] private Button _deleteSelectedButton = null;
 
 	[ExportGroup("Encounter Save Dialog")]
 	[Export] private Window _encounterSaveDialog;
@@ -25,17 +29,22 @@ public partial class EntrySerializer : Control
 	[ExportGroup("Entry Save Dialog")]
 	[Export] private ConfirmationDialog _entrySaveDialog;
 
+	[ExportGroup("Deletion Dialog")]
+	[Export] private ConfirmationDialog _deletionDialog;
+
 	[ExportGroup("Paths")]
 	[Export] private string _customEntriesDirectory;
 	[Export] private string _customEncountersDirectory;
 	[Export] private string _standardRulesMonstersDirectory;
-	[Export] private string _builtInEncountersDirectory;
+	[Export] private string _standardEncountersDirectory;
 	
-	private List<string> _customEntryPaths = new();
-	private List<string> _customEncounterPaths = new();
-	private List<string> _standardRulesMonstersPaths = new();
-	private List<string> _builtInEcounterPaths = new();
-	
+	private List<string> _customEntryPaths = [];
+	private List<string> _customEncounterPaths = [];
+	private List<string> _standardRulesMonstersPaths = [];
+	private List<string> _standardEcounterPaths = [];
+	private List<int> _deletionRestrictedTabs = [];
+	List<int> _entryTabIndices = []; 
+
 
 	public override void _Ready()
 	{
@@ -44,6 +53,16 @@ public partial class EntrySerializer : Control
 
 		InitEvents();
 		ConstructItemLists();
+
+		// Restrict file deletion on the built-in tabs
+		_deletionRestrictedTabs.Add(_standardRulesMonstersItemList.GetIndex());
+		_deletionRestrictedTabs.Add(_standardEncountersItemList.GetIndex());
+
+		// Ensure the delete button in the load menu is disabled if it starts on a restriced tab
+		if(_deletionRestrictedTabs.Contains(_tabContainer.CurrentTab)) _deleteSelectedButton.Disabled = true;
+
+		// Which tabs are for entries
+		_entryTabIndices = [_standardRulesMonstersItemList.GetIndex(), _customEntriesItemList.GetIndex()];
 	}
 
 	public void PromptLoad() 
@@ -56,10 +75,6 @@ public partial class EntrySerializer : Control
 		_encounterSaveDialog.PopupCentered();
 	}
 
-	/// <summary>
-	/// Displays a confirmation prompt for the user 
-	/// </summary>
-	/// <param name="entry"></param>
 	public async void PromptEntrySave(InitiativeEntry entry) 
 	{
 		_entrySaveDialog.PopupCentered();
@@ -81,14 +96,86 @@ public partial class EntrySerializer : Control
 		_encounterSaveDialog.Hide();
 	}
 
-	/// <summary>
-	/// Loads an XML file from a path, converts it to an entry and adds it to the tracker.
-	/// </summary>
-	/// <param name="path"></param>
+	private void PromptDeletion() 
+	{
+		int customEntriesTabIndex = _customEntriesItemList.GetIndex();
+
+		if(_tabContainer.CurrentTab == customEntriesTabIndex) 
+		{
+			if (_customEntriesItemList.GetSelectedItems().Length <= 0) return;
+
+			int index = _customEntriesItemList.GetSelectedItems()[0];
+			string path = _customEntryPaths[index];
+			DeleteCustomEntry(path);
+		}
+		else 
+		{
+			if (_customEncountersItemList.GetSelectedItems().Length <= 0) return;
+
+			int index = _customEncountersItemList.GetSelectedItems()[0];
+			string path = _customEncounterPaths[index];
+			DeleteCustomEncounter(path);
+		}
+
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+	}
+
+	// File Manipulation
+	private List<string> GetXMLPathsFromDir(string path) 
+	{
+		List<string> tmp = [];
+
+		using DirAccess dir = DirAccess.Open(path);
+		if (dir != null)
+		{
+			dir.ListDirBegin();
+			string fileName = dir.GetNext();
+			while (fileName != "")
+			{
+				string entry_path = path + fileName;
+				tmp.Add(entry_path);
+				fileName = dir.GetNext();
+			}
+
+			return tmp;
+		}
+		else
+		{
+			GD.PrintErr("An error occurred when trying to access the custom path.");
+			return null;
+		}
+	}
+
+	string GetUniqueFilePath(string characterName, bool isEncounter)
+	{
+		string dir = isEncounter ? _customEncountersDirectory : _customEntriesDirectory;
+
+		string basePath = dir + characterName;
+		string originalPath = basePath + ".xml";
+		
+		// If the file doesn't exist yet, we can use the original name
+		if (!Godot.FileAccess.FileExists(originalPath))
+		{
+			return originalPath;
+		}
+		
+		// File exists, so we need to find a unique name
+		int index = 1;
+		string newPath;
+		
+		// Keep trying new filenames until we find one that doesn't exist
+		do
+		{
+			newPath = $"{basePath}({index}).xml";
+			index++;
+		} while (Godot.FileAccess.FileExists(newPath));
+		
+		return newPath;
+	}
+
 	private void LoadEntry(string path) 
 	{
 		XmlParser parser = new();
-		GD.Print(path);
 		parser.Open(path);
 
 		InitiativeEntry newEntry = _tracker.InititativeEntryScene.Instantiate<InitiativeEntry>();
@@ -205,13 +292,30 @@ public partial class EntrySerializer : Control
 
 	private void SaveEntry(InitiativeEntry entry) 
 	{
-		string path = _customEntriesDirectory + entry.CharacterName + ".xml";
+		string path = GetUniqueFilePath(entry.CharacterName, false);
+		GD.Print(path);
+
+		if(Godot.FileAccess.FileExists(path)) 
+		{
+			path.TrimSuffix(".xml");
+
+			int index = 1;
+			string suffix = ".xml";
+			while (Godot.FileAccess.FileExists(path))
+			{
+				path.TrimSuffix(suffix);
+				suffix = $"({index}).xml";
+				path += suffix;
+				index++;
+			}
+		}
+		
 		using var file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Write);
 		
 		if (file == null)
 		{
 			Error error = Godot.FileAccess.GetOpenError();
-			GD.PrintErr($"Failed to open file for writing: {entry.CharacterName}, Error: {error}");
+			GD.PrintErr($"Failed to open file for writing: {path}, Error: {error}");
 			return;
 		}
 		
@@ -226,18 +330,18 @@ public partial class EntrySerializer : Control
 		file.StoreLine("</monster>");
 		
 		AddToItemList(_customEntriesItemList, path, false);
-		GD.Print($"Entry saved to {path}");
+		GD.Print($"Entry successfully saved to {path}");
 	}
 
 	private void SaveEncounter(List<InitiativeEntry> encounter, string name) 
 	{
-		string path = _customEncountersDirectory + name + ".xml";
+		string path = GetUniqueFilePath(name, true);
 		using var file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Write);
 		
 		if (file == null)
 		{
 			Error error = Godot.FileAccess.GetOpenError();
-			GD.PrintErr($"Failed to open file for writing: {name}, Error: {error}");
+			GD.PrintErr($"Failed to open file for writing: {path}, Error: {error}");
 			return;
 		}
 		
@@ -260,52 +364,62 @@ public partial class EntrySerializer : Control
 		file.StoreLine("</encounter>");
 		
 		AddToItemList(_customEncountersItemList, path, true);
-		GD.Print($"Encounter saved to {path}");
+		GD.Print($"Encounter successfully saved to {path}");
 	}
 
+	private async void DeleteCustomEntry(string path) 
+	{
+		// Confirmation Popup
+		_deletionDialog.PopupCentered();
+		await ToSignal(_deletionDialog.GetOkButton(), "pressed");
 
+		// Deletion
+		DirAccess.RemoveAbsolute(path);
+		_customEntryPaths.Remove(path);
+		RemoveFromItemList(_customEntriesItemList, path, false);
+		_customEntriesItemList.DeselectAll();
+
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIDelete);
+
+		GD.Print($"Entry successfully deleted at {path}");
+	}
+
+	
+	private async void DeleteCustomEncounter(string path) 
+	{
+		// Confirmation Popup
+		_deletionDialog.PopupCentered();
+		await ToSignal(_deletionDialog.GetOkButton(), "pressed");
+
+		// Deletion
+		DirAccess.RemoveAbsolute(path);
+		_customEncounterPaths.Remove(path);
+		RemoveFromItemList(_customEncountersItemList, path, true);
+		_customEncountersItemList.DeselectAll();
+
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIDelete);
+
+		GD.Print($"Encounter successfully deleted at {path}");
+	}
+
+	// Item List Manipulation
 	private void ConstructItemLists() 
 	{
 		_standardRulesMonstersPaths = GetXMLPathsFromDir(_standardRulesMonstersDirectory);
-		_builtInEcounterPaths = GetXMLPathsFromDir(_builtInEncountersDirectory);
+		_standardEcounterPaths = GetXMLPathsFromDir(_standardEncountersDirectory);
 
 		_customEntryPaths = GetXMLPathsFromDir(_customEntriesDirectory);
 		_customEncounterPaths = GetXMLPathsFromDir(_customEncountersDirectory);
 
 		// Fill out all item lists with the paths from the directories above
         FillItemList(_standardRulesMonstersItemList, _standardRulesMonstersPaths);
-		FillItemList(_builtInEncountersItemList, _builtInEcounterPaths);
+		FillItemList(_standardEncountersItemList, _standardEcounterPaths);
 
         FillItemList(_customEntriesItemList, _customEntryPaths);
 		FillItemList(_customEncountersItemList, _customEncounterPaths);
 	}
 
-	private static List<string> GetXMLPathsFromDir(string path) 
-	{
-		List<string> tmp = new();
-
-		using DirAccess dir = DirAccess.Open(path);
-		if (dir != null)
-		{
-			dir.ListDirBegin();
-			string fileName = dir.GetNext();
-			while (fileName != "")
-			{
-				string entry_path = path + fileName;
-				tmp.Add(entry_path);
-				fileName = dir.GetNext();
-			}
-
-			return tmp;
-		}
-		else
-		{
-			GD.Print("An error occurred when trying to access the custom path.");
-			return null;
-		}
-	}
-
-	private static void FillItemList(ItemList list, List<string> paths) 
+	private void FillItemList(CustomItemList list, List<string> paths) 
 	{
 		foreach (string path in paths)
 		{
@@ -322,9 +436,10 @@ public partial class EntrySerializer : Control
 		}
 
 		list.SortItemsByText();
+		list.RefreshColors();
 	}
 
-	private void AddToItemList(ItemList list, string path, bool isEncounter) 
+	private void AddToItemList(CustomItemList list, string path, bool isEncounter) 
 	{
 		string fileName = path.GetFile().TrimSuffix(".xml");
 
@@ -332,6 +447,7 @@ public partial class EntrySerializer : Control
 		{
 			list.AddItem(fileName);
 			list.SortItemsByText();
+			list.RefreshColors();
 
 			if(isEncounter) 
 			{
@@ -350,7 +466,7 @@ public partial class EntrySerializer : Control
 		}
 	}
 
-	private void RemoveFromItemList(ItemList list, string path, bool isEncounter) 
+	private void RemoveFromItemList(CustomItemList list, string path, bool isEncounter) 
 	{
 		string fileName = path.GetFile().TrimSuffix(".xml");
 
@@ -360,15 +476,16 @@ public partial class EntrySerializer : Control
 			{
 				list.RemoveItem(i);
 				list.SortItemsByText();
+				list.RefreshColors();
 
 				if(isEncounter)
 				{
-					_customEncounterPaths.Add(path);
+					_customEncounterPaths.Remove(path);
 					_customEncounterPaths.Sort();
 				} 
 				else
 				{
-					_customEntryPaths.Add(path);
+					_customEntryPaths.Remove(path);
 					_customEntryPaths.Sort();
 				}
 
@@ -380,7 +497,36 @@ public partial class EntrySerializer : Control
 	}
 
 
-	// Loading
+	// Load Menu Events
+	private void OnTabChanged(int tabIdx)
+    {
+    	_deleteSelectedButton.Disabled = _deletionRestrictedTabs.Contains(tabIdx);
+    }
+
+	private void OnLoadSelected() 
+	{
+		GD.Print("Called");
+		if(_entryTabIndices.Contains(_tabContainer.CurrentTab)) 
+		{
+			if (_customEntriesItemList.GetSelectedItems().Length <= 0) return;
+
+			int index = _customEntriesItemList.GetSelectedItems()[0];
+			string path = _customEntryPaths[index];
+			LoadEntry(path);
+		}
+		else 
+		{
+			if (_customEncountersItemList.GetSelectedItems().Length <= 0) return;
+
+			int index = _customEncountersItemList.GetSelectedItems()[0];
+			string path = _customEncounterPaths[index];
+			LoadEncounter(path);
+		}
+
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+		_loadMenu.Hide();
+	}
+
 	private void OnCustomEntryItemActivated(int index) 
 	{
 		LoadEntry(_customEntryPaths[index]);
@@ -401,7 +547,7 @@ public partial class EntrySerializer : Control
 
 	private void OnBuiltInEncounterItemActivated(int index) 
 	{
-		LoadEncounter(_builtInEcounterPaths[index]);
+		LoadEncounter(_standardEcounterPaths[index]);
 		_loadMenu.Hide();
 	}
 	
@@ -412,7 +558,7 @@ public partial class EntrySerializer : Control
 	}
 
 
-	// Saving
+	// Encounter Save Events
 	private void OnCloseEncounterSaveDialog() 
 	{
 		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIError);
@@ -435,14 +581,19 @@ public partial class EntrySerializer : Control
 		_encounterSaveDialog.Hide();
 	}
 
+
+	// Event Initialization
 	private void InitEvents() 
 	{
-		_customEntriesItemList.ItemActivated += (idx) => OnCustomEntryItemActivated((int)idx);
-		_customEncountersItemList.ItemActivated += (idx) => OnCustomEncounterItemActivated((int)idx);
+		_customEntriesItemList.ItemActivated += (index) => OnCustomEntryItemActivated((int)index);
+		_customEncountersItemList.ItemActivated += (index) => OnCustomEncounterItemActivated((int)index);
 
-		_standardRulesMonstersItemList.ItemActivated += (idx) => OnStandardRulesMonsterItemActivated((int)idx);
-		_builtInEncountersItemList.ItemActivated += (idx) => OnBuiltInEncounterItemActivated((int)idx);
+		_standardRulesMonstersItemList.ItemActivated += (index) => OnStandardRulesMonsterItemActivated((int)index);
+		_standardEncountersItemList.ItemActivated += (index) => OnBuiltInEncounterItemActivated((int)index);
 
+		_tabContainer.TabChanged += (tabIdx) => OnTabChanged((int)tabIdx);
+		_deleteSelectedButton.Pressed += () => PromptDeletion();
+		_loadSelectedButton.Pressed += () => OnLoadSelected();
 		_closeMenuButton.Pressed += () => OnCloseLoadMenu();
 
 		_encounterSaveDialog.CloseRequested += () => OnCloseEncounterSaveDialog();

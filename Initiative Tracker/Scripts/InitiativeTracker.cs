@@ -15,31 +15,32 @@ public partial class InitiativeTracker : Control
 	[Export] private Label _activeAC;
 	[Export] private Label _activeInitiative;
 
-	[ExportCategory("Buttons")]
-	[Export] private Button _addEntryButton;
-	[Export] private Button _rollAllButton;
-	[Export] private Button _saveButton;
-	[Export] private Button _loadButton;
-	[Export] private Button _sortButton;
-	[Export] private Button _clearButton;
+	[ExportCategory("Tracker Action Buttons")]
+	[Export] private TextureButton _addButton;
+	[Export] private TextureButton _rollButton;
+	[Export] private TextureButton _sortButton;
+	[Export] private TextureButton _clearButton;
+	[Export] private TextureButton _saveButton;
+	[Export] private TextureButton _loadButton;
+	[Export] private TextureButton _restartButton;
 	[Export] private Button _nextButton;
+
+	private List<InitiativeEntry> _entries = [];
+	public List<InitiativeEntry> Entries { get => _entries; }
 
 	// Helper classes
 	private readonly CombatOrderManager _combatOrderManager  = new();
-
-	private List<InitiativeEntry> _entries = new();
-	public List<InitiativeEntry> Entries { get => _entries; }
-
 	public PackedScene InititativeEntryScene { get => _initiativeEntryScene; }
 	public EntrySerializer EntrySerializer { get => _entrySerializer; }
-	
+
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		InitEvents();
 	}
 
-	// Public Helpers
+	// Helpers
 	public void RemoveEntryFromTracker(InitiativeEntry entry) 
 	{
 		UpdateRoundCounter(_combatOrderManager.Round);
@@ -71,6 +72,58 @@ public partial class InitiativeTracker : Control
 		UpdateDetailBlock(_combatOrderManager.ActiveEntry);
 	}
 
+	public void MoveEntryUp(InitiativeEntry entry) 
+	{
+		int idx = _entries.IndexOf(entry);
+		
+		if(idx == -1)
+		{
+			GD.PrintErr("Cannot move entry up because it does not exist in the tracker!");
+			return;
+		}
+
+		if(idx == 0) 
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIError);
+		}
+		else 
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+			
+			// Swap Elements
+			(_entries[idx], _entries[idx - 1]) = (_entries[idx - 1], _entries[idx]);
+
+			_combatOrderManager.SwapEntries(idx, idx - 1);
+			_vBoxContainer.MoveChild(entry, idx - 1);
+		}
+	}
+
+	public void MoveEntryDown(InitiativeEntry entry) 
+	{
+		int idx = _entries.IndexOf(entry);
+		
+		if(idx == -1)
+		{
+			GD.PrintErr("Cannot move entry down because it does not exist in the tracker!");
+			return;
+		}
+
+		if(idx == _entries.Count) 
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIError);
+		}
+		else 
+		{
+			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+			
+			// Swap Elements
+			(_entries[idx], _entries[idx + 1]) = (_entries[idx + 1], _entries[idx]);
+
+			_combatOrderManager.SwapEntries(idx, idx + 1);
+			_vBoxContainer.MoveChild(entry, idx + 1);
+		}
+	}
+
 	public void UpdateDetailBlock(InitiativeEntry activeEntry) 
 	{
 		if(activeEntry == null)
@@ -91,6 +144,11 @@ public partial class InitiativeTracker : Control
 		_activeHP.Text = "N/A";
 		_activeAC.Text = "N/A";
 		_activeInitiative.Text = "N/A";
+	}
+
+	private void UpdateRoundCounter(int round) 
+	{
+		_roundCounterLabel.Text = "Round " + round;
 	}
 
 	// Button events
@@ -182,20 +240,22 @@ public partial class InitiativeTracker : Control
 		}
 	}
 
-	// Helpers
-	private void UpdateRoundCounter(int round) 
+	private void RestartEvent() 
 	{
-		_roundCounterLabel.Text = "Round " + round;
+		_combatOrderManager.ResetRound();
+		UpdateRoundCounter(_combatOrderManager.Round);
 	}
 
+	// Event Initialization
 	private void InitEvents() 
 	{
-		_addEntryButton.Pressed += () => AddEvent();
-		_rollAllButton.Pressed += () => RollEvent();
+		_nextButton.Pressed += () => AdvanceEvent();
+		_addButton.Pressed += () => AddEvent();
+		_rollButton.Pressed += () => RollEvent();
 		_sortButton.Pressed += () => SortEvent();
 		_clearButton.Pressed += () => ClearEvent();
-		_nextButton.Pressed += () => AdvanceEvent();
 		_saveButton.Pressed += () => SaveEvent();
 		_loadButton.Pressed += () => LoadEvent();
+		_restartButton.Pressed += () => RestartEvent();
 	}
 }

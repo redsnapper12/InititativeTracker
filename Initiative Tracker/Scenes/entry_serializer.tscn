@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcfp3wsujp3fd"]
+[gd_scene load_steps=4 format=3 uid="uid://bcfp3wsujp3fd"]
 
-[ext_resource type="Script" path="res://Scripts/Helper Classes/EntrySerializer.cs" id="1_5qa6v"]
+[ext_resource type="Script" uid="uid://qrq1sbx2i5tc" path="res://Scripts/Helper Classes/EntrySerializer.cs" id="1_5qa6v"]
+[ext_resource type="Script" uid="uid://cfo6hp0b15onn" path="res://Scripts/CustomItemList.cs" id="3_f8nda"]
 
-[node name="Entry Serializer" type="Control" node_paths=PackedStringArray("_loadMenu", "_customEntriesItemList", "_customEncountersItemList", "_standardRulesMonstersItemList", "_builtInEncountersItemList", "_closeMenuButton", "_encounterSaveDialog", "_encounterNameEdit", "_confirmEncounterSaveButton", "_cancelEncounterSaveButton", "_entrySaveDialog")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0iclg"]
+bg_color = Color(0.227451, 0.227451, 0.227451, 1)
+
+[node name="Entry Serializer" type="Control" node_paths=PackedStringArray("_loadMenu", "_tabContainer", "_customEntriesItemList", "_customEncountersItemList", "_standardRulesMonstersItemList", "_standardEncountersItemList", "_closeMenuButton", "_loadSelectedButton", "_deleteSelectedButton", "_encounterSaveDialog", "_encounterNameEdit", "_confirmEncounterSaveButton", "_cancelEncounterSaveButton", "_entrySaveDialog", "_deletionDialog")]
 layout_mode = 3
 anchors_preset = 0
 size_flags_horizontal = 3
@@ -10,20 +14,24 @@ size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_5qa6v")
 _loadMenu = NodePath("Load Menu")
-_customEntriesItemList = NodePath("Load Menu/Nodes/TabContainer/Custom Entries/Custom Entries")
-_customEncountersItemList = NodePath("Load Menu/Nodes/TabContainer/Custom Encounters/Custom Encounters")
-_standardRulesMonstersItemList = NodePath("Load Menu/Nodes/TabContainer/Standard Rules Monsters/Standard Rules")
-_builtInEncountersItemList = NodePath("Load Menu/Nodes/TabContainer/Built-In Encounters/Built-In Encounters")
-_closeMenuButton = NodePath("Load Menu/Nodes/MarginContainer/Button")
+_tabContainer = NodePath("Load Menu/Nodes/MarginContainer/TabContainer")
+_customEntriesItemList = NodePath("Load Menu/Nodes/MarginContainer/TabContainer/Custom Entries")
+_customEncountersItemList = NodePath("Load Menu/Nodes/MarginContainer/TabContainer/Custom Encounters")
+_standardRulesMonstersItemList = NodePath("Load Menu/Nodes/MarginContainer/TabContainer/Standard Rules Entries")
+_standardEncountersItemList = NodePath("Load Menu/Nodes/MarginContainer/TabContainer/Standard Encounters")
+_closeMenuButton = NodePath("Load Menu/Nodes/PanelContainer/MarginContainer/HBoxContainer/Cancel")
+_loadSelectedButton = NodePath("Load Menu/Nodes/PanelContainer/MarginContainer/HBoxContainer/Load Selected")
+_deleteSelectedButton = NodePath("Load Menu/Nodes/PanelContainer/MarginContainer/HBoxContainer/Delete Selected")
 _encounterSaveDialog = NodePath("Save Dialog")
 _encounterNameEdit = NodePath("Save Dialog/MarginContainer/HBoxContainer/LineEdit")
 _confirmEncounterSaveButton = NodePath("Save Dialog/MarginContainer/HBoxContainer/Save")
 _cancelEncounterSaveButton = NodePath("Save Dialog/MarginContainer/HBoxContainer/Cancel")
-_entrySaveDialog = NodePath("ConfirmationDialog")
+_entrySaveDialog = NodePath("Save Confirmation Dialog")
+_deletionDialog = NodePath("Delete Confirmation Dialog")
 _customEntriesDirectory = "user://saves/entries/"
 _customEncountersDirectory = "user://saves/encounters/"
 _standardRulesMonstersDirectory = "res://Resources/Monsters/"
-_builtInEncountersDirectory = "res://Resources/Encounters/"
+_standardEncountersDirectory = "res://Resources/Encounters/"
 metadata/_edit_use_anchors_ = true
 
 [node name="Load Menu" type="Control" parent="."]
@@ -35,15 +43,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="Load Menu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.211765, 0.211765, 0.211765, 0.901961)
-
 [node name="Nodes" type="VBoxContainer" parent="Load Menu"]
 layout_mode = 1
 anchors_preset = 15
@@ -51,78 +50,66 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="TabContainer" type="TabContainer" parent="Load Menu/Nodes"]
-layout_mode = 2
-size_flags_vertical = 3
-current_tab = 3
-
-[node name="Standard Rules Monsters" type="ScrollContainer" parent="Load Menu/Nodes/TabContainer"]
-visible = false
-layout_mode = 2
-horizontal_scroll_mode = 0
-metadata/_tab_index = 0
-
-[node name="Standard Rules" type="ItemList" parent="Load Menu/Nodes/TabContainer/Standard Rules Monsters"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 28
-max_text_lines = 2
-auto_height = true
-max_columns = 5
-same_column_width = true
-icon_scale = 0.3
-
-[node name="Built-In Encounters" type="ScrollContainer" parent="Load Menu/Nodes/TabContainer"]
-visible = false
-layout_mode = 2
-horizontal_scroll_mode = 0
-metadata/_tab_index = 1
-
-[node name="Built-In Encounters" type="ItemList" parent="Load Menu/Nodes/TabContainer/Built-In Encounters"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 28
-max_text_lines = 2
-auto_height = true
-max_columns = 5
-same_column_width = true
-icon_scale = 0.3
-
-[node name="Custom Entries" type="ScrollContainer" parent="Load Menu/Nodes/TabContainer"]
-visible = false
-layout_mode = 2
-metadata/_tab_index = 2
-
-[node name="Custom Entries" type="ItemList" parent="Load Menu/Nodes/TabContainer/Custom Entries"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 28
-max_text_lines = 2
-auto_height = true
-max_columns = 2
-same_column_width = true
-icon_scale = 0.3
-
-[node name="Custom Encounters" type="ScrollContainer" parent="Load Menu/Nodes/TabContainer"]
-layout_mode = 2
-metadata/_tab_index = 3
-
-[node name="Custom Encounters" type="ItemList" parent="Load Menu/Nodes/TabContainer/Custom Encounters"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 28
-max_text_lines = 2
-auto_height = true
-max_columns = 2
-same_column_width = true
-icon_scale = 0.3
+theme_override_constants/separation = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="Load Menu/Nodes"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 10
+
+[node name="TabContainer" type="TabContainer" parent="Load Menu/Nodes/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="Standard Rules Entries" type="ItemList" parent="Load Menu/Nodes/MarginContainer/TabContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
+max_text_lines = 2
+icon_scale = 0.3
+script = ExtResource("3_f8nda")
+metadata/_tab_index = 0
+
+[node name="Standard Encounters" type="ItemList" parent="Load Menu/Nodes/MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
+max_text_lines = 2
+icon_scale = 0.3
+script = ExtResource("3_f8nda")
+metadata/_tab_index = 1
+
+[node name="Custom Entries" type="ItemList" parent="Load Menu/Nodes/MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
+max_text_lines = 2
+icon_scale = 0.3
+script = ExtResource("3_f8nda")
+metadata/_tab_index = 2
+
+[node name="Custom Encounters" type="ItemList" parent="Load Menu/Nodes/MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 28
+max_text_lines = 2
+icon_scale = 0.3
+script = ExtResource("3_f8nda")
+metadata/_tab_index = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="Load Menu/Nodes"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0iclg")
+
+[node name="MarginContainer" type="MarginContainer" parent="Load Menu/Nodes/PanelContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/margin_left = 10
@@ -130,9 +117,27 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Button" type="Button" parent="Load Menu/Nodes/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Load Menu/Nodes/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Load Selected" type="Button" parent="Load Menu/Nodes/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Load Selected"
+
+[node name="Delete Selected" type="Button" parent="Load Menu/Nodes/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Delete Selected"
+
+[node name="Cancel" type="Button" parent="Load Menu/Nodes/PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 text = "Cancel"
 
@@ -180,11 +185,21 @@ layout_mode = 2
 size_flags_vertical = 4
 text = "Cancel"
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+[node name="Save Confirmation Dialog" type="ConfirmationDialog" parent="."]
 title = "Save Entry?"
 initial_position = 1
 size = Vector2i(300, 86)
 unresizable = true
 popup_window = true
-ok_button_text = "Save"
-dialog_text = "Save this Entry?"
+ok_button_text = "Save Entry"
+dialog_text = "Save this entry?"
+
+[node name="Delete Confirmation Dialog" type="ConfirmationDialog" parent="."]
+auto_translate_mode = 1
+title = "Delete File?"
+initial_position = 1
+size = Vector2i(300, 86)
+unresizable = true
+popup_window = true
+ok_button_text = "Delete File"
+dialog_text = "Delete this file?"

@@ -1,15 +1,16 @@
-[gd_scene load_steps=12 format=3 uid="uid://c3huoailwjv4a"]
+[gd_scene load_steps=13 format=3 uid="uid://c3huoailwjv4a"]
 
-[ext_resource type="Script" path="res://Scripts/InitiativeEntry.cs" id="1_a681c"]
+[ext_resource type="Script" uid="uid://bcsq1lkv1i45" path="res://Scripts/InitiativeEntry.cs" id="1_a681c"]
 [ext_resource type="Theme" uid="uid://dp0ku4lrfchxi" path="res://Settings/Themes/Basic Theme.tres" id="1_gox41"]
 [ext_resource type="Texture2D" uid="uid://ca7qnm64behoi" path="res://Textures/Icons/32x32/casino.png" id="3_746do"]
-[ext_resource type="FontFile" uid="uid://b8lq6l6m68v27" path="res://Settings/Fonts/Geist/static/Geist-Bold.ttf" id="3_g4jxg"]
 [ext_resource type="Texture2D" uid="uid://c1ejxjrutf3eu" path="res://Textures/Icons/32x32/add.png" id="5_u25qc"]
 [ext_resource type="Texture2D" uid="uid://dcl403jffjvd2" path="res://Textures/Icons/32x32/shield.png" id="6_nwgtm"]
 [ext_resource type="Texture2D" uid="uid://cs00nmlb515j7" path="res://Textures/Icons/32x32/favorite.png" id="7_ohgnv"]
 [ext_resource type="Texture2D" uid="uid://b6i8aw16gch2o" path="res://Textures/Icons/32x32/save.png" id="8_35cy2"]
 [ext_resource type="Texture2D" uid="uid://c617vi5ouht6j" path="res://Textures/Icons/32x32/content_copy.png" id="9_cwaec"]
 [ext_resource type="Texture2D" uid="uid://cwjqgt4xrqky" path="res://Textures/Icons/32x32/delete.png" id="10_alrs1"]
+[ext_resource type="Texture2D" uid="uid://bhn5i5f1o4mwp" path="res://Textures/Icons/32x32/arrow_upward.png" id="11_hpgv7"]
+[ext_resource type="Texture2D" uid="uid://dwkwcyvwtkvh1" path="res://Textures/Icons/32x32/arrow_downward.png" id="12_slilw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_du4or"]
 bg_color = Color(0.380392, 0.709804, 0.964706, 0.278431)
@@ -17,69 +18,81 @@ corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
-expand_margin_left = 10.0
-expand_margin_top = 10.0
-expand_margin_right = 10.0
-expand_margin_bottom = 10.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
 
-[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_initiativeLabel", "_nameEdit", "_dexModifierSpinBox", "_ACSpinBox", "_HPSpinBox", "_rollInitiativeButton", "_saveButton", "_duplicateButton", "_deleteButton", "_panelContainer")]
-custom_minimum_size = Vector2(1073, 64)
+[node name="Initiative Entry" type="Control" node_paths=PackedStringArray("_nameEdit", "_initiativeSpinBox", "_dexModifierSpinBox", "_ACSpinBox", "_HPSpinBox", "_rollInitiativeButton", "_saveButton", "_duplicateButton", "_deleteButton", "_moveUpButton", "_moveDownButton", "_panelContainer")]
+custom_minimum_size = Vector2(891, 64)
 layout_mode = 3
 anchor_right = 0.931
 anchor_bottom = 0.099
-offset_right = 0.488037
+offset_right = 0.487915
 offset_bottom = -0.152008
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme = ExtResource("1_gox41")
 script = ExtResource("1_a681c")
-_initiativeLabel = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Initiative/Initiative Label")
-_nameEdit = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Name")
-_dexModifierSpinBox = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Modifier/SpinBox")
-_ACSpinBox = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/AC/SpinBox")
-_HPSpinBox = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/HP/SpinBox")
-_rollInitiativeButton = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Initiative/Roll Initiative")
-_saveButton = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Option Buttons/Save")
-_duplicateButton = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Option Buttons/Duplicate")
-_deleteButton = NodePath("MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Option Buttons/Delete")
+_nameEdit = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Name")
+_initiativeSpinBox = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Initiative/Initiative SpinBox")
+_dexModifierSpinBox = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Modifier/SpinBox")
+_ACSpinBox = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/AC/SpinBox")
+_HPSpinBox = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/HP/SpinBox")
+_rollInitiativeButton = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Initiative/Roll Initiative")
+_saveButton = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons/Save")
+_duplicateButton = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons/Duplicate")
+_deleteButton = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons/Delete")
+_moveUpButton = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons/Move Up")
+_moveDownButton = NodePath("MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons/Move Down")
 _panelContainer = NodePath("MarginContainer/Panel Container")
 _activePanelStyleBox = SubResource("StyleBoxFlat_du4or")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(1073, 64)
+custom_minimum_size = Vector2(891, 64)
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = -1
 anchor_right = 1.0
-offset_bottom = 80.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
 
 [node name="Panel Container" type="PanelContainer" parent="MarginContainer"]
 modulate = Color(0.968627, 1, 1, 1)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Entry Vertical Container" type="VBoxContainer" parent="MarginContainer/Panel Container"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel Container"]
+custom_minimum_size = Vector2(891, 64)
 layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Entry Vertical Container" type="VBoxContainer" parent="MarginContainer/Panel Container/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 20
 
-[node name="Top Bar Container" type="HBoxContainer" parent="MarginContainer/Panel Container/Entry Vertical Container"]
+[node name="Top Bar Container" type="HBoxContainer" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Initiative" type="HBoxContainer" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container"]
+[node name="Initiative" type="HBoxContainer" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Roll Initiative" type="TextureButton" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Initiative"]
+[node name="Roll Initiative" type="TextureButton" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Initiative"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+tooltip_text = "Roll Initiative"
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("3_746do")
 texture_pressed = ExtResource("3_746do")
@@ -88,18 +101,12 @@ texture_disabled = ExtResource("3_746do")
 texture_focused = ExtResource("3_746do")
 stretch_mode = 4
 
-[node name="Initiative Label" type="Label" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Initiative"]
+[node name="Initiative SpinBox" type="SpinBox" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Initiative"]
 custom_minimum_size = Vector2(34, 0)
 layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("3_g4jxg")
-theme_override_font_sizes/font_size = 24
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
+size_flags_horizontal = 6
 
-[node name="Name" type="LineEdit" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container"]
+[node name="Name" type="LineEdit" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container"]
 custom_minimum_size = Vector2(245, 50)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -109,58 +116,58 @@ placeholder_text = "Name..."
 max_length = 255
 clear_button_enabled = true
 
-[node name="Modifier" type="HBoxContainer" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container"]
+[node name="Modifier" type="HBoxContainer" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Modifier"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Modifier"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("5_u25qc")
 stretch_mode = 4
 
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Modifier"]
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Modifier"]
 layout_mode = 2
 min_value = -100.0
 update_on_text_changed = true
 prefix = "+"
 select_all_on_focus = true
 
-[node name="AC" type="HBoxContainer" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container"]
+[node name="AC" type="HBoxContainer" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/AC"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/AC"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("6_nwgtm")
 stretch_mode = 4
 
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/AC"]
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/AC"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 update_on_text_changed = true
 select_all_on_focus = true
 
-[node name="HP" type="HBoxContainer" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container"]
+[node name="HP" type="HBoxContainer" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/HP"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/HP"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("7_ohgnv")
 stretch_mode = 4
 
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/HP"]
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/HP"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
@@ -169,14 +176,15 @@ max_value = 999.0
 update_on_text_changed = true
 select_all_on_focus = true
 
-[node name="Option Buttons" type="HBoxContainer" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container"]
+[node name="Option Buttons" type="HBoxContainer" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container"]
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="Save" type="TextureButton" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Option Buttons"]
+[node name="Save" type="TextureButton" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+tooltip_text = "Save Entry"
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("8_35cy2")
 texture_pressed = ExtResource("8_35cy2")
@@ -184,10 +192,11 @@ texture_hover = ExtResource("8_35cy2")
 texture_disabled = ExtResource("8_35cy2")
 texture_focused = ExtResource("8_35cy2")
 
-[node name="Duplicate" type="TextureButton" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Option Buttons"]
+[node name="Duplicate" type="TextureButton" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+tooltip_text = "Duplicate Entry"
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("9_cwaec")
 texture_pressed = ExtResource("9_cwaec")
@@ -195,13 +204,40 @@ texture_hover = ExtResource("9_cwaec")
 texture_disabled = ExtResource("9_cwaec")
 texture_focused = ExtResource("9_cwaec")
 
-[node name="Delete" type="TextureButton" parent="MarginContainer/Panel Container/Entry Vertical Container/Top Bar Container/Option Buttons"]
+[node name="Delete" type="TextureButton" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+tooltip_text = "Delete Entry"
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("10_alrs1")
 texture_pressed = ExtResource("10_alrs1")
 texture_hover = ExtResource("10_alrs1")
 texture_disabled = ExtResource("10_alrs1")
 texture_focused = ExtResource("10_alrs1")
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons"]
+clip_contents = true
+layout_mode = 2
+
+[node name="Move Up" type="TextureButton" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("11_hpgv7")
+texture_pressed = ExtResource("11_hpgv7")
+texture_hover = ExtResource("11_hpgv7")
+texture_disabled = ExtResource("11_hpgv7")
+texture_focused = ExtResource("11_hpgv7")
+
+[node name="Move Down" type="TextureButton" parent="MarginContainer/Panel Container/MarginContainer/Entry Vertical Container/Top Bar Container/Option Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("12_slilw")
+texture_pressed = ExtResource("12_slilw")
+texture_hover = ExtResource("12_slilw")
+texture_disabled = ExtResource("12_slilw")
+texture_focused = ExtResource("12_slilw")

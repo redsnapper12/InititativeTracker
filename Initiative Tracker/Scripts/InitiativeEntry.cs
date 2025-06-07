@@ -4,8 +4,8 @@ using System;
 public partial class InitiativeEntry : Control
 {	
 	[ExportGroup("Info")]
-	[Export] private Label _initiativeLabel;
 	[Export] private LineEdit _nameEdit;
+	[Export] private SpinBox _initiativeSpinBox;
 	[Export] private SpinBox _dexModifierSpinBox;
 	[Export] private SpinBox _ACSpinBox;
 	[Export] private SpinBox _HPSpinBox;
@@ -15,7 +15,9 @@ public partial class InitiativeEntry : Control
 	[Export] private TextureButton _saveButton;
 	[Export] private TextureButton _duplicateButton;
 	[Export] private TextureButton _deleteButton;
-	
+	[Export] private TextureButton _moveUpButton;
+	[Export] private TextureButton _moveDownButton;
+
 	[ExportGroup("Visuals")]
 	[Export] private PanelContainer _panelContainer;
 	[Export] private StyleBoxFlat _activePanelStyleBox;
@@ -52,7 +54,7 @@ public partial class InitiativeEntry : Control
 		get => _initiative;
 		set 
 		{
-			_initiativeLabel.Text = value.ToString();
+			_initiativeSpinBox.Value = value;
 			_initiative = value;
 		}
 	}
@@ -107,7 +109,7 @@ public partial class InitiativeEntry : Control
 		int roll = GD.RandRange(1, 20) + _dexModifier;
 		
 		_initiative = roll;
-		_initiativeLabel.Text = roll.ToString();
+		_initiativeSpinBox.Value = roll;
 	}
 
 	// Button events
@@ -150,11 +152,25 @@ public partial class InitiativeEntry : Control
 		_saveButton.Pressed += () => SaveEvent();
 		_duplicateButton.Pressed += () => DuplicateEvent();
 		_deleteButton.Pressed += () => DeleteEvent();
+		_moveUpButton.Pressed += () => _tracker.MoveEntryUp(this);
+		_moveDownButton.Pressed += () => _tracker.MoveEntryDown(this);
+
+		_nameEdit.TextSubmitted += (text) => _nameEdit.ReleaseFocus();
+		_initiativeSpinBox.GetLineEdit().TextSubmitted += (text) => _initiativeSpinBox.GetLineEdit().ReleaseFocus();
+		_HPSpinBox.GetLineEdit().TextSubmitted += (text) => _HPSpinBox.GetLineEdit().ReleaseFocus();
+		_ACSpinBox.GetLineEdit().TextSubmitted += (text) => _ACSpinBox.GetLineEdit().ReleaseFocus();
+		_dexModifierSpinBox.GetLineEdit().TextSubmitted += (text) => _dexModifierSpinBox.GetLineEdit().ReleaseFocus();
 
 		// Details
 		_nameEdit.TextChanged += (text) => 
 		{
 			_characterName = text;
+			if (_isActive) _tracker.UpdateDetailBlock(this);
+		};
+
+		_initiativeSpinBox.ValueChanged += (value) =>
+		{
+			_initiative = (int)value;
 			if (_isActive) _tracker.UpdateDetailBlock(this);
 		};
 

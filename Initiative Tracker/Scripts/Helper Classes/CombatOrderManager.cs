@@ -13,15 +13,21 @@ public partial class CombatOrderManager
     { 
         get => _activeEntry; 
         set 
-        {
+        {   
+            // Remove styling and set previous active entry as inactive
             if(_activeEntry != null)
             {
                 _activeEntry.IsActive = false;
                 if(_activeEntry.PanelContainer.HasThemeStyleboxOverride("panel")) _activeEntry.PanelContainer.RemoveThemeStyleboxOverride("panel");
             } 
+
+            // Set new active entry
             _activeEntry = value;
+
+            // Add style and set new entry as active entry
             if(_activeEntry != null)
             {  
+                _activeEntry.IsActive = true;
                 if(!_activeEntry.PanelContainer.HasThemeStyleboxOverride("panel")) _activeEntry.PanelContainer.AddThemeStyleboxOverride("panel", _activeEntry.ActivePanelStyleBox);
             } 
         }
@@ -29,7 +35,7 @@ public partial class CombatOrderManager
 
     public CombatOrderManager()
     {
-        _combatOrder = new();
+        _combatOrder = [];
     }
 
     public void AddEntryToCombat(InitiativeEntry entry, int index = -1) 
@@ -116,6 +122,22 @@ public partial class CombatOrderManager
         }
     }
 
+    public void SwapEntries(int i, int j) 
+    {
+        (_combatOrder[j], _combatOrder[i]) = (_combatOrder[i], _combatOrder[j]);
+
+        if(i == _activeEntryIndex)
+        {
+            _activeEntryIndex = j;
+            ActiveEntry = _combatOrder[_activeEntryIndex];
+        }
+        else if(j == _activeEntryIndex)
+        {
+            _activeEntryIndex = i;
+            ActiveEntry = _combatOrder[_activeEntryIndex];
+        }
+    }
+
     public void NextTurn() 
     {
         if (_combatOrder.Count == 0) return;
@@ -127,6 +149,17 @@ public partial class CombatOrderManager
         _combatOrder.Clear();
         ActiveEntry = null;
         _round = 1;
+    }
+
+    public void ResetRound() 
+    {
+        _round = 1;
+
+        if(_combatOrder.Count > 0)
+        {
+            _activeEntryIndex = 0;
+            ActiveEntry = _combatOrder[_activeEntryIndex];
+        } 
     }
 
     private void IterateActiveEntry() 

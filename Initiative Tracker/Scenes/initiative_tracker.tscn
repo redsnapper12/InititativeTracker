@@ -1,13 +1,21 @@
-[gd_scene load_steps=12 format=3 uid="uid://balowi2v7juq5"]
+[gd_scene load_steps=20 format=3 uid="uid://balowi2v7juq5"]
 
-[ext_resource type="Script" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
+[ext_resource type="Script" uid="uid://i16604arq3bj" path="res://Scripts/InitiativeTracker.cs" id="1_6an5j"]
 [ext_resource type="PackedScene" uid="uid://c3huoailwjv4a" path="res://Scenes/initiative_entry.tscn" id="1_dlqeq"]
 [ext_resource type="FontFile" uid="uid://b8lq6l6m68v27" path="res://Settings/Fonts/Geist/static/Geist-Bold.ttf" id="3_wtnph"]
 [ext_resource type="Texture2D" uid="uid://cf2dllaeavdml" path="res://Textures/Google Icons/favorite_16dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.png" id="4_dkkih"]
-[ext_resource type="FontFile" uid="uid://ccyo85d5kf8ta" path="res://Settings/Fonts/Geist/static/Geist-Regular.ttf" id="5_fm0jp"]
+[ext_resource type="FontFile" uid="uid://cbmb1qkojncg3" path="res://Settings/Fonts/Geist/static/Geist-ExtraBold.ttf" id="5_5i4td"]
 [ext_resource type="Texture2D" uid="uid://5bgf5fjsnd4e" path="res://Textures/Google Icons/shield_16dp_E3E3E3_FILL0_wght400_GRAD0_opsz20.png" id="6_03ck0"]
 [ext_resource type="Texture2D" uid="uid://fujc0jrobph2" path="res://Textures/Google Icons/casino_16dp_E8EAED_FILL0_wght400_GRAD0_opsz20.png" id="7_d3w80"]
+[ext_resource type="FontFile" uid="uid://gf7yx5yq6to0" path="res://Settings/Fonts/Geist/static/Geist-Medium.ttf" id="8_sjapg"]
+[ext_resource type="Texture2D" uid="uid://c0hoyymdijso4" path="res://Textures/Icons/32x32/refresh.png" id="9_vurhf"]
 [ext_resource type="PackedScene" uid="uid://bcfp3wsujp3fd" path="res://Scenes/entry_serializer.tscn" id="10_ddxwv"]
+[ext_resource type="Texture2D" uid="uid://c1ejxjrutf3eu" path="res://Textures/Icons/32x32/add.png" id="10_jkium"]
+[ext_resource type="Texture2D" uid="uid://ca7qnm64behoi" path="res://Textures/Icons/32x32/casino.png" id="11_ntb83"]
+[ext_resource type="Texture2D" uid="uid://c4udv64h1f708" path="res://Textures/Icons/32x32/sort.png" id="12_qa0uw"]
+[ext_resource type="Texture2D" uid="uid://cwjqgt4xrqky" path="res://Textures/Icons/32x32/delete.png" id="13_dmnar"]
+[ext_resource type="Texture2D" uid="uid://b6i8aw16gch2o" path="res://Textures/Icons/32x32/save.png" id="14_d8w5d"]
+[ext_resource type="Texture2D" uid="uid://chtxap774ry65" path="res://Textures/Icons/32x32/folder_open.png" id="15_yd0dd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_worp0"]
 bg_color = Color(0.172549, 0.172549, 0.172549, 1)
@@ -24,7 +32,7 @@ bg_color = Color(0.172833, 0.172833, 0.172833, 1)
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_entrySerializer", "_vBoxContainer", "_roundCounterLabel", "_activeName", "_activeHP", "_activeAC", "_activeInitiative", "_addEntryButton", "_rollAllButton", "_saveButton", "_loadButton", "_sortButton", "_clearButton", "_nextButton")]
+[node name="InitiativeTracker" type="Control" node_paths=PackedStringArray("_entrySerializer", "_vBoxContainer", "_roundCounterLabel", "_activeName", "_activeHP", "_activeAC", "_activeInitiative", "_addButton", "_rollButton", "_sortButton", "_clearButton", "_saveButton", "_loadButton", "_restartButton", "_nextButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,19 +44,20 @@ size_flags_vertical = 3
 script = ExtResource("1_6an5j")
 _entrySerializer = NodePath("EntrySerializer")
 _initiativeEntryScene = ExtResource("1_dlqeq")
-_vBoxContainer = NodePath("Scene Container/Details/Entry List/Entry Container")
-_roundCounterLabel = NodePath("Scene Container/Details/PanelContainer/MarginContainer/HBoxContainer/Round")
-_activeName = NodePath("Scene Container/MarginContainer2/PanelContainer2/Details/PanelContainer/MarginContainer/HBoxContainer/Label")
-_activeHP = NodePath("Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/HP/PanelContainer/HBoxContainer/VBoxContainer/Value")
-_activeAC = NodePath("Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/AC/PanelContainer/HBoxContainer/VBoxContainer/Value")
-_activeInitiative = NodePath("Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/Initiative/PanelContainer/HBoxContainer/VBoxContainer/Value")
-_addEntryButton = NodePath("Scene Container/MarginContainer/Utility Bar Container/Add Entry Button")
-_rollAllButton = NodePath("Scene Container/MarginContainer/Utility Bar Container/Roll All Button")
-_saveButton = NodePath("Scene Container/MarginContainer/Utility Bar Container/Save Button")
-_loadButton = NodePath("Scene Container/MarginContainer/Utility Bar Container/Load Button")
-_sortButton = NodePath("Scene Container/MarginContainer/Utility Bar Container/Sort Button")
-_clearButton = NodePath("Scene Container/MarginContainer/Utility Bar Container/Clear Button")
-_nextButton = NodePath("Scene Container/MarginContainer2/PanelContainer2/Details/PanelContainer/MarginContainer/HBoxContainer/MarginContainer/Next Button")
+_vBoxContainer = NodePath("Scene Container/Combat Order Margins/Combat Order/Entry List/MarginContainer/Entry Container")
+_roundCounterLabel = NodePath("Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer/Round")
+_activeName = NodePath("Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Header Panel Container/MarginContainer/HBoxContainer/Label")
+_activeHP = NodePath("Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/HP/PanelContainer/HBoxContainer/VBoxContainer/Value")
+_activeAC = NodePath("Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/AC/PanelContainer/HBoxContainer/VBoxContainer/Value")
+_activeInitiative = NodePath("Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/Initiative/PanelContainer/HBoxContainer/VBoxContainer/Value")
+_addButton = NodePath("Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer/Add New Entry")
+_rollButton = NodePath("Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer/Roll Initiative")
+_sortButton = NodePath("Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer/Sort Tracker")
+_clearButton = NodePath("Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer/Clear Tracker")
+_saveButton = NodePath("Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer/Save Encounter")
+_loadButton = NodePath("Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer/Load Encounter")
+_restartButton = NodePath("Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer/Restart")
+_nextButton = NodePath("Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Header Panel Container/MarginContainer/HBoxContainer/MarginContainer/Next Button")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -61,52 +70,50 @@ color = Color(0.190762, 0.190762, 0.190762, 1)
 
 [node name="Scene Container" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.015625
-anchor_top = 0.0277778
-anchor_right = 0.983507
-anchor_bottom = 0.983025
-offset_top = -18.0
-offset_bottom = 10.9998
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="Scene Container"]
+[node name="Detail Block Margins" type="MarginContainer" parent="Scene Container"]
 layout_mode = 2
-theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
-[node name="PanelContainer2" type="PanelContainer" parent="Scene Container/MarginContainer2"]
+[node name="Detail Block Panel Container" type="PanelContainer" parent="Scene Container/Detail Block Margins"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_worp0")
 
-[node name="Details" type="VBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2"]
+[node name="Details" type="VBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details"]
+[node name="Header Panel Container" type="PanelContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_t6wfa")
 
-[node name="MarginContainer" type="MarginContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Header Panel Container"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Header Panel Container/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Scene Container/MarginContainer2/PanelContainer2/Details/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Header Panel Container/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("3_wtnph")
 theme_override_font_sizes/font_size = 48
 text = "No Combatant"
 text_overrun_behavior = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Header Panel Container/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_constants/margin_left = 5
@@ -114,7 +121,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Next Button" type="Button" parent="Scene Container/MarginContainer2/PanelContainer2/Details/PanelContainer/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="Next Button" type="Button" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Header Panel Container/MarginContainer/HBoxContainer/MarginContainer"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -122,11 +129,11 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
 text = "End Turn"
 
-[node name="Current Details" type="HBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details"]
+[node name="Current Details" type="HBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HP" type="MarginContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details"]
+[node name="Initiative" type="MarginContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 20
@@ -134,215 +141,238 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="PanelContainer" type="PanelContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/HP"]
+[node name="PanelContainer" type="PanelContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/Initiative"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/HP/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="TextureRect" type="TextureRect" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/HP/PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("4_dkkih")
-stretch_mode = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/HP/PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="HP Label" type="Label" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/HP/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wtnph")
-text = "Health Points"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Value" type="Label" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/HP/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_fm0jp")
-text = "N/A"
-horizontal_alignment = 1
-
-[node name="AC" type="MarginContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="PanelContainer" type="PanelContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/AC"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/AC/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/Initiative/PanelContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="TextureRect" type="TextureRect" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/AC/PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture = ExtResource("6_03ck0")
-stretch_mode = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/AC/PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="AC Label" type="Label" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/AC/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wtnph")
-text = "Armor Class"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Value" type="Label" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/AC/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_fm0jp")
-text = "N/A"
-horizontal_alignment = 1
-
-[node name="Initiative" type="MarginContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="PanelContainer" type="PanelContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/Initiative"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/Initiative/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="TextureRect" type="TextureRect" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/Initiative/PanelContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/Initiative/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("7_d3w80")
 stretch_mode = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/Initiative/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/Initiative/PanelContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="Initiative" type="Label" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/Initiative/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="Initiative" type="Label" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/Initiative/PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wtnph")
 text = "Initiative"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Value" type="Label" parent="Scene Container/MarginContainer2/PanelContainer2/Details/Current Details/Initiative/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="Value" type="Label" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/Initiative/PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_fm0jp")
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_5i4td")
+theme_override_font_sizes/font_size = 24
 text = "N/A"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Details" type="VBoxContainer" parent="Scene Container"]
+[node name="AC" type="MarginContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/AC"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/AC/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/AC/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("6_03ck0")
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/AC/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="AC Label" type="Label" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/AC/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wtnph")
+text = "Armor Class"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/AC/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_5i4td")
+theme_override_font_sizes/font_size = 24
+text = "N/A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HP" type="MarginContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PanelContainer" type="PanelContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/HP"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/HP/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/HP/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("4_dkkih")
+stretch_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/HP/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 0
+
+[node name="HP Label" type="Label" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/HP/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_wtnph")
+text = "Health Points"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Scene Container/Detail Block Margins/Detail Block Panel Container/Details/Current Details/HP/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_5i4td")
+theme_override_font_sizes/font_size = 24
+text = "N/A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Combat Order Margins" type="MarginContainer" parent="Scene Container"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="Combat Order" type="VBoxContainer" parent="Scene Container/Combat Order Margins"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="Scene Container/Details"]
+[node name="PanelContainer" type="PanelContainer" parent="Scene Container/Combat Order Margins/Combat Order"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_t6wfa")
 
-[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Details/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Details/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="Combat Order" type="Label" parent="Scene Container/Details/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Combat Order" type="Label" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_wtnph")
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("8_sjapg")
 theme_override_font_sizes/font_size = 32
 text = "Combat Order - "
 
-[node name="Round" type="Label" parent="Scene Container/Details/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Round" type="Label" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("3_wtnph")
+theme_override_fonts/font = ExtResource("8_sjapg")
 theme_override_font_sizes/font_size = 32
 text = "Round 1"
 
-[node name="Entry List" type="ScrollContainer" parent="Scene Container/Details"]
+[node name="Restart" type="TextureButton" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+tooltip_text = "Restart Round"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("9_vurhf")
+texture_pressed = ExtResource("9_vurhf")
+
+[node name="Add New Entry" type="TextureButton" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Add New Entry"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("10_jkium")
+texture_pressed = ExtResource("10_jkium")
+
+[node name="Roll Initiative" type="TextureButton" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Roll Initiative"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("11_ntb83")
+texture_pressed = ExtResource("11_ntb83")
+
+[node name="Sort Tracker" type="TextureButton" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Sort Tracker"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("12_qa0uw")
+texture_pressed = ExtResource("12_qa0uw")
+
+[node name="Clear Tracker" type="TextureButton" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Clear Tracker"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("13_dmnar")
+texture_pressed = ExtResource("13_dmnar")
+
+[node name="Save Encounter" type="TextureButton" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Save Encounter"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("14_d8w5d")
+texture_pressed = ExtResource("14_d8w5d")
+
+[node name="Load Encounter" type="TextureButton" parent="Scene Container/Combat Order Margins/Combat Order/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Load Encounter"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("15_yd0dd")
+texture_pressed = ExtResource("15_yd0dd")
+
+[node name="Entry List" type="ScrollContainer" parent="Scene Container/Combat Order Margins/Combat Order"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_cudr6")
 follow_focus = true
 
-[node name="Entry Container" type="VBoxContainer" parent="Scene Container/Details/Entry List"]
+[node name="MarginContainer" type="MarginContainer" parent="Scene Container/Combat Order Margins/Combat Order/Entry List"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 20
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
 
-[node name="MarginContainer" type="MarginContainer" parent="Scene Container"]
-layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="Utility Bar Container" type="HBoxContainer" parent="Scene Container/MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="Add Entry Button" type="Button" parent="Scene Container/MarginContainer/Utility Bar Container"]
-custom_minimum_size = Vector2(0, 40)
+[node name="Entry Container" type="VBoxContainer" parent="Scene Container/Combat Order Margins/Combat Order/Entry List/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 6
-mouse_default_cursor_shape = 2
-text = "Add Entry"
-
-[node name="Roll All Button" type="Button" parent="Scene Container/MarginContainer/Utility Bar Container"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-mouse_default_cursor_shape = 2
-text = "Roll All"
-
-[node name="Save Button" type="Button" parent="Scene Container/MarginContainer/Utility Bar Container"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-tooltip_text = "Save Entry Group"
-mouse_default_cursor_shape = 2
-text = "Save"
-
-[node name="Load Button" type="Button" parent="Scene Container/MarginContainer/Utility Bar Container"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-tooltip_text = "Load Entry Group"
-mouse_default_cursor_shape = 2
-text = "Load"
-
-[node name="Sort Button" type="Button" parent="Scene Container/MarginContainer/Utility Bar Container"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-mouse_default_cursor_shape = 2
-text = "Sort
-"
-
-[node name="Clear Button" type="Button" parent="Scene Container/MarginContainer/Utility Bar Container"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-mouse_default_cursor_shape = 2
-text = "Clear"
+size_flags_vertical = 3
+theme_override_constants/separation = 15
 
 [node name="EntrySerializer" parent="." node_paths=PackedStringArray("_tracker") instance=ExtResource("10_ddxwv")]
 layout_mode = 1
