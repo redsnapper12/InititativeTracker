@@ -1,6 +1,8 @@
 # Inititative Tracker
  An initiative tracker for DND 5E that is designed to go one step further than traditional initiative trackers. As a desktop app, it also allows further functionality like saving and loading your tracker's state!
 
+![Image](https://github.com/user-attachments/assets/e43f46d6-3df7-40e7-954a-568d1af50150)
+
 ## Core Tracking Functionality
 
 ### Character and NPC Tracking
