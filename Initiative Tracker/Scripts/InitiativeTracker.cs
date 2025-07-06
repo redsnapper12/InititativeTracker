@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -179,14 +180,15 @@ public partial class InitiativeTracker : Control
 		_entrySerializer.PromptLoad();
 	}
 
-	private void ClearEvent() 
+	private void ClearEvent()
 	{
-		if(_entries.Count > 0)
+		if (_entries.Count > 0)
 		{
 			AudioManager.Instance.PlaySound(AudioManager.Sounds.UIDelete);
 
 			foreach (InitiativeEntry entry in _entries)
 			{
+				entry.GetParent()?.RemoveChild(entry);
 				entry.QueueFree();
 			}
 
@@ -194,6 +196,8 @@ public partial class InitiativeTracker : Control
 			_combatOrderManager.ClearCombatOrder();
 			ResetDetailBlock();
 			UpdateRoundCounter(_combatOrderManager.Round);
+
+			GC.Collect();
 		}
 		else
 		{
@@ -242,6 +246,8 @@ public partial class InitiativeTracker : Control
 
 	private void RestartEvent() 
 	{
+		AudioManager.Instance.PlaySound(AudioManager.Sounds.UIClick);
+
 		_combatOrderManager.ResetRound();
 		UpdateRoundCounter(_combatOrderManager.Round);
 	}

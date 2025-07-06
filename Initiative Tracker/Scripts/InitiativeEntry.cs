@@ -91,9 +91,13 @@ public partial class InitiativeEntry : Control
 		
 	}
 
-
+	public override void _ExitTree()
+	{
+		_popupMenu?.QueueFree();
+	}
+	
 	public override void _Ready()
-    {
+	{
 		_characterName = _nameEdit.Text;
 
 		_ACSpinBox.GetLineEdit().ContextMenuEnabled = false;
@@ -101,7 +105,7 @@ public partial class InitiativeEntry : Control
 		_dexModifierSpinBox.GetLineEdit().ContextMenuEnabled = false;
 
 		InitEvents();
-    }
+	}
 
 	// Public Helpers
 	public void RollInitiative() 

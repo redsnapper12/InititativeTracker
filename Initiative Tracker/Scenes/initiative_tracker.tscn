@@ -262,6 +262,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="Combat Order" type="VBoxContainer" parent="Scene Container/Combat Order Margins"]
 layout_mode = 2

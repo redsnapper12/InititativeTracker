@@ -175,7 +175,7 @@ public partial class EntrySerializer : Control
 
 	private void LoadEntry(string path) 
 	{
-		XmlParser parser = new();
+		using XmlParser parser = new();
 		parser.Open(path);
 
 		InitiativeEntry newEntry = _tracker.InititativeEntryScene.Instantiate<InitiativeEntry>();
@@ -219,7 +219,7 @@ public partial class EntrySerializer : Control
 
 	private void LoadEncounter(string path) 
 	{
-		XmlParser parser = new();
+		using XmlParser parser = new();
 		parser.Open(path);
 		
 		// Track if we're inside a monster element
